@@ -17,12 +17,12 @@ export async function generateMetadata({ params }: ProjectDetailPageProps) {
 
   if (!project) {
     return {
-      title: "Project Not Found",
+      title: "Hizrawan's Portfolio",
     };
   }
 
   return {
-    title: `${project.title} — Project Detail`,
+    title: "Hizrawan's Portfolio",
     description: project.summary,
   };
 }
@@ -40,20 +40,23 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       <ContentNav />
 
       <section className="content-wrapper content-detail">
-        <Link href="/projects" className="content-back-link">
-          ← Back to All Projects
-        </Link>
-        <div>
-          <Link href="/" className="content-back-link">
-            ← Back to Home
-          </Link>
+        <div className="content-page-hero detail-hero">
+          <div>
+            <p className="content-kicker">
+              {project.year} · {project.role}
+            </p>
+            <h1 className="content-title">{project.title}</h1>
+            <p className="content-subtitle">{project.summary}</p>
+          </div>
+          <div className="content-back-actions">
+            <Link href="/projects" className="content-back-link">
+              ← All Projects
+            </Link>
+            <Link href="/" className="content-back-link secondary-back">
+              Home
+            </Link>
+          </div>
         </div>
-
-        <p className="content-kicker">
-          {project.year} · {project.role}
-        </p>
-        <h1 className="content-title">{project.title}</h1>
-        <p className="content-subtitle">{project.summary}</p>
 
         <div className="content-tag-row">
           {project.tags.map((tag) => (

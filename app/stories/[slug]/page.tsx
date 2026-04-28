@@ -19,12 +19,12 @@ export async function generateMetadata({ params }: StoryDetailPageProps) {
 
   if (!story) {
     return {
-      title: "Story Not Found",
+      title: "Hizrawan's Portfolio",
     };
   }
 
   return {
-    title: `${story.title} — Story Detail`,
+    title: "Hizrawan's Portfolio",
     description: story.excerpt,
   };
 }
@@ -45,13 +45,20 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
       <ContentNav />
 
       <section className="content-wrapper story-reader-wrapper">
-        <div className="story-reader-actions">
-          <Link href="/stories" className="content-back-link">
-            ← Back to All Stories
-          </Link>
-          <Link href="/" className="content-back-link">
-            ← Back to Home
-          </Link>
+        <div className="content-page-hero detail-hero">
+          <div>
+            <p className="content-kicker">{story.type}</p>
+            <h1 className="content-title">{story.title}</h1>
+            <p className="content-subtitle">{story.excerpt}</p>
+          </div>
+          <div className="content-back-actions">
+            <Link href="/stories" className="content-back-link">
+              ← All Stories
+            </Link>
+            <Link href="/" className="content-back-link secondary-back">
+              Home
+            </Link>
+          </div>
         </div>
 
         <article className="story-reader" aria-label={`${story.title} reader`}>
@@ -78,10 +85,6 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
                 <span>{story.status}</span>
                 <span>{hasPdf ? "PDF Ready" : "PDF Missing"}</span>
               </div>
-
-              <p className="content-kicker">{story.type}</p>
-              <h1 className="content-title story-title">{story.title}</h1>
-              <p className="content-subtitle story-lead">{story.excerpt}</p>
 
               {hasPdf ? (
                 <iframe

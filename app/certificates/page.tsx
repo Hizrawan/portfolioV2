@@ -1,11 +1,17 @@
+import fs from "node:fs";
+import path from "node:path";
 import Link from "next/link";
 import ContentNav from "../../components/content-nav";
 import { certificates } from "../../lib/content";
 
 export const metadata = {
-  title: "All Certificates — Hizrawan",
+  title: "Hizrawan's Portfolio",
   description: "List of certificates, credentials, and language proficiency records.",
 };
+
+function publicFileExists(filePath: string) {
+  return fs.existsSync(path.join(process.cwd(), "public", filePath.replace(/^\//, "")));
+}
 
 export default function CertificatesPage() {
   return (
@@ -13,21 +19,29 @@ export default function CertificatesPage() {
       <ContentNav />
 
       <section className="content-wrapper">
-        <Link href="/" className="content-back-link">
-          ← Back to Home
-        </Link>
-
-        <p className="content-kicker">Credentials</p>
-        <h1 className="content-title">All Certificates</h1>
-        <p className="content-subtitle">
-          Project management preparation, professional language certificates, and credentials that support international collaboration.
-        </p>
+        <div className="content-page-hero">
+          <div>
+            <p className="content-kicker">Credentials</p>
+            <h1 className="content-title">All Certificates</h1>
+            <p className="content-subtitle">
+              Project management preparation, professional language certificates, and credentials that support international collaboration.
+            </p>
+          </div>
+          <div className="content-back-actions">
+            <Link href="/" className="content-back-link">
+              ← Back to Home
+            </Link>
+          </div>
+        </div>
 
         <div className="content-grid">
           {certificates.map((certificate) => (
             <article key={certificate.slug} className="content-card">
               <div className="certificate-card-cover content-card-cover">
                 <span>{certificate.score ?? certificate.year}</span>
+                {publicFileExists(certificate.imageFile) ? (
+                  <img src={certificate.imageFile} alt={`${certificate.title} certificate`} />
+                ) : null}
               </div>
 
               <div className="content-card-meta">

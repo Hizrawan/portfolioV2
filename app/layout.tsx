@@ -23,8 +23,12 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hizrawan — Backend Engineer",
+  title: "Hizrawan's Portfolio",
   description: "Portfolio website built with Next.js",
+  icons: {
+    icon: "/profile.jpg",
+    apple: "/profile.jpg",
+  },
 };
 
 export default function RootLayout({

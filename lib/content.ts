@@ -27,6 +27,8 @@ export type Certificate = {
   year: string;
   status: string;
   score?: string;
+  imageFile: string;
+  pdfFile: string;
   summary: string;
   details: string[];
   externalUrl?: string;
@@ -161,6 +163,8 @@ export const certificates: Certificate[] = [
     issuer: "Project Management Institute",
     year: "In Progress",
     status: "Preparing",
+    imageFile: "/certificates/capm-preparation.jpg",
+    pdfFile: "/certificates/capm-preparation.pdf",
     summary:
       "Formal project management certification path used to strengthen planning, coordination, risk, and delivery knowledge.",
     details: [
@@ -177,6 +181,8 @@ export const certificates: Certificate[] = [
     year: "Completed",
     status: "Language Certificate",
     score: "96",
+    imageFile: "/certificates/toefl-ibt.jpg",
+    pdfFile: "/certificates/toefl-ibt.pdf",
     summary:
       "English proficiency certification supporting international study, work, and cross-functional communication.",
     details: [
@@ -192,6 +198,8 @@ export const certificates: Certificate[] = [
     year: "Completed",
     status: "Language Certificate",
     score: "960",
+    imageFile: "/certificates/toeic.jpg",
+    pdfFile: "/certificates/toeic.pdf",
     summary:
       "Workplace English proficiency certificate for professional communication and business contexts.",
     details: [
@@ -207,6 +215,8 @@ export const certificates: Certificate[] = [
     year: "Completed",
     status: "Language Certificate",
     score: "A1",
+    imageFile: "/certificates/tocfl-a1.jpg",
+    pdfFile: "/certificates/tocfl-a1.pdf",
     summary:
       "Basic Mandarin proficiency certification supporting daily communication while working in Taiwan.",
     details: [
@@ -222,6 +232,8 @@ export const certificates: Certificate[] = [
     year: "Completed",
     status: "Language Certificate",
     score: "A1",
+    imageFile: "/certificates/german-a1.jpg",
+    pdfFile: "/certificates/german-a1.pdf",
     summary:
       "Basic German language proficiency listed as part of multilingual communication development.",
     details: [

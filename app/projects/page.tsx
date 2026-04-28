@@ -3,7 +3,7 @@ import ContentNav from "../../components/content-nav";
 import { projects } from "../../lib/content";
 
 export const metadata = {
-  title: "All Projects — Hizrawan",
+  title: "Hizrawan's Portfolio",
   description: "List of all project case studies.",
 };
 
@@ -13,15 +13,20 @@ export default function ProjectsPage() {
       <ContentNav />
 
       <section className="content-wrapper">
-        <Link href="/" className="content-back-link">
-          ← Back to Home
-        </Link>
-
-        <p className="content-kicker">Portfolio</p>
-        <h1 className="content-title">All Projects</h1>
-        <p className="content-subtitle">
-          A collection of projects that have been worked on, complete with a summary and a detailed page for each project.
-        </p>
+        <div className="content-page-hero">
+          <div>
+            <p className="content-kicker">Portfolio</p>
+            <h1 className="content-title">All Projects</h1>
+            <p className="content-subtitle">
+              A collection of projects that have been worked on, complete with a summary and a detailed page for each project.
+            </p>
+          </div>
+          <div className="content-back-actions">
+            <Link href="/" className="content-back-link">
+              ← Back to Home
+            </Link>
+          </div>
+        </div>
 
         <div className="content-grid">
           {projects.map((project) => (

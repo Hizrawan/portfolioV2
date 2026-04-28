@@ -3,7 +3,7 @@ import ContentNav from "../../components/content-nav";
 import { stories } from "../../lib/content";
 
 export const metadata = {
-  title: "All Stories — Hizrawan",
+  title: "Hizrawan's Portfolio",
   description: "List of all stories and writings.",
 };
 
@@ -21,15 +21,20 @@ export default function StoriesPage() {
       <ContentNav />
 
       <section className="content-wrapper">
-        <Link href="/" className="content-back-link">
-          ← Back to Home
-        </Link>
-
-        <p className="content-kicker">Writing</p>
-        <h1 className="content-title">All Stories</h1>
-        <p className="content-subtitle">
-          This page contains all writings and story works, with a detail page for each title.
-        </p>
+        <div className="content-page-hero">
+          <div>
+            <p className="content-kicker">Writing</p>
+            <h1 className="content-title">All Stories</h1>
+            <p className="content-subtitle">
+              This page contains all writings and story works, with a detail page for each title.
+            </p>
+          </div>
+          <div className="content-back-actions">
+            <Link href="/" className="content-back-link">
+              ← Back to Home
+            </Link>
+          </div>
+        </div>
 
         <div className="content-grid">
           {stories.map((story) => (

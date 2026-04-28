@@ -52,6 +52,30 @@ const experiences = [
       "Built Kendo UI dashboards, forms, validation flows, and high-volume data grids with virtualization, filtering, and pagination.",
     ],
   },
+  {
+    date: "2021 - 2023",
+    title: "Research Assistant",
+    company: "National Chin-Yi University of Technology",
+    summary:
+      "Conducted computer science research on data hiding schemes and AMBTC-based image processing.",
+    detail: [
+      "Researched block feature enhanced AMBTC-based data hiding methods for academic publication.",
+      "Designed experiments, analyzed image quality and hiding capacity, and documented research findings.",
+      "Published research with DOI: https://doi.org/10.1145/3634814.3634830.",
+    ],
+  },
+  {
+    date: "2017",
+    title: "Programmer Internship",
+    company: "PT LAPI Divusi",
+    summary:
+      "Supported mobile application development through React Native UI work and REST API integration.",
+    detail: [
+      "Contributed to mobile UI screens, interaction flows, and integration with backend endpoints.",
+      "Worked through iterative testing, bug fixes, and mentorship-based development practices.",
+      "Built an early foundation in product collaboration, frontend implementation, and delivery quality.",
+    ],
+  },
 ];
 
 const skills = {
@@ -168,9 +192,33 @@ function Section({
 
 export default function PortfolioClient() {
   const [activeSkill, setActiveSkill] = useState<keyof typeof skills>("Project Management");
+  const [activeSection, setActiveSection] = useState("about");
   const [typedName, setTypedName] = useState("\u00a0");
   const cursorRef = useRef<HTMLDivElement>(null);
   const skillNames = useMemo(() => Object.keys(skills) as Array<keyof typeof skills>, []);
+
+  useEffect(() => {
+    const sections = navItems
+      .map(([, href]) => document.querySelector<HTMLElement>(href))
+      .filter((section): section is HTMLElement => Boolean(section));
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target.id) setActiveSection(visible.target.id);
+      },
+      {
+        threshold: [0.28, 0.45, 0.6],
+        rootMargin: "-22% 0px -46% 0px",
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const cursor = cursorRef.current;
@@ -298,7 +346,15 @@ export default function PortfolioClient() {
           </a>
           <nav className="hidden gap-4 overflow-x-auto font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.1em] text-[var(--muted)] lg:flex lg:gap-7">
             {navItems.map(([label, href]) => (
-              <a key={href} href={href} className="transition hover:text-[var(--accent)]">
+              <a
+                key={href}
+                href={href}
+                className={`rounded-full px-2 py-1 transition hover:text-[var(--accent)] ${
+                  activeSection === href.slice(1)
+                    ? "bg-[var(--accent-dim)] text-[var(--accent)] shadow-[0_0_24px_rgba(0,229,180,0.28)]"
+                    : ""
+                }`}
+              >
                 {label}
               </a>
             ))}
@@ -334,7 +390,15 @@ export default function PortfolioClient() {
             </summary>
             <nav className="absolute right-0 top-12 grid min-w-52 gap-1 rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_94%,transparent)] p-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] shadow-[0_18px_60px_rgba(0,0,0,0.26)] backdrop-blur-2xl">
               {navItems.map(([label, href]) => (
-                <a key={href} href={href} className="rounded-xl px-3 py-2 transition hover:bg-[var(--accent-dim)] hover:text-[var(--accent)]">
+                <a
+                  key={href}
+                  href={href}
+                  className={`rounded-xl px-3 py-2 transition hover:bg-[var(--accent-dim)] hover:text-[var(--accent)] ${
+                    activeSection === href.slice(1)
+                      ? "bg-[var(--accent-dim)] text-[var(--accent)] shadow-[0_0_24px_rgba(0,229,180,0.22)]"
+                      : ""
+                  }`}
+                >
                   {label}
                 </a>
               ))}
@@ -363,8 +427,8 @@ export default function PortfolioClient() {
               <span className="rounded-lg border border-[rgba(212,168,67,0.25)] bg-[var(--accent2-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent2)]">Software Engineer</span>.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <a href="#projects" className="group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
-                View Work <span className="inline-block transition group-hover:translate-x-1">→</span>
+              <a href="/cv/20260223_CV_hizrawan_PM.pdf" download className="group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
+                Download CV <span className="inline-block transition group-hover:translate-y-0.5">↓</span>
               </a>
               <a href="#contact" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_58%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">
                 Contact Me
@@ -380,12 +444,23 @@ export default function PortfolioClient() {
           <div className="about-breathing relative mx-auto aspect-square w-full max-w-sm rounded-[2rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg3)_78%,transparent)] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.26)] backdrop-blur-xl">
             <div className="absolute -right-5 -top-5 h-28 w-28 rounded-full bg-[var(--accent-dim)] blur-xl" />
             <div className="absolute -bottom-5 -left-5 h-32 w-32 rounded-full bg-[var(--accent2-dim)] blur-xl" />
-            <div className="relative grid h-full place-items-center rounded-[1.35rem] border border-[var(--border)] bg-[linear-gradient(135deg,var(--accent-dim),transparent)] font-[var(--font-serif)] text-8xl text-[var(--accent)] shadow-inner">
-              H
+            <div className="relative h-full overflow-hidden rounded-[1.35rem] border border-[var(--border)] bg-[linear-gradient(135deg,var(--accent-dim),transparent)] shadow-inner">
+              <div className="absolute inset-6 rounded-full border border-[var(--accent)]/30 bg-[var(--accent-dim)] blur-2xl" />
+              <span className="absolute inset-0 grid place-items-center font-[var(--font-mono)] text-xs uppercase tracking-[0.18em] text-[var(--accent)]">
+                Profile Photo
+              </span>
+              <img
+                src="/profile.jpg"
+                alt="Hizrawan Dwi Oka portrait"
+                className="relative z-10 h-full w-full rounded-[1.15rem] object-cover"
+                onError={(event) => {
+                  event.currentTarget.style.opacity = "0";
+                }}
+              />
             </div>
           </div>
           <div>
-            <h2 className="max-w-3xl font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-[1.02] tracking-[-0.03em]">
+            <h2 className="max-w-3xl font-[var(--font-serif)] text-[clamp(1.45rem,3vw,2rem)] font-light leading-[1.12] tracking-[-0.02em]">
               CAPM candidate transitioning from software engineering into IT project management.
             </h2>
             <p className="mt-6 leading-8 text-[var(--muted)]">
@@ -440,17 +515,17 @@ export default function PortfolioClient() {
               href={item.href}
               target="_blank"
               rel="noreferrer"
-              className="about-breathing rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]"
+              className="about-breathing flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]"
               style={{ animationDelay: `${index * 0.35}s` }}
             >
-              <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{item.meta}</p>
-              <h3 className="mt-3 font-[var(--font-serif)] text-2xl">{item.title}</h3>
+              <p className="min-h-12 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{item.meta}</p>
+              <h3 className="mt-3 min-h-16 font-[var(--font-serif)] text-2xl">{item.title}</h3>
               <div className="mt-4 flex flex-wrap gap-2 font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.1em]">
                 <span className="rounded-full border border-[var(--border2)] px-3 py-1 text-[var(--text)]">{item.year}</span>
                 <span className="rounded-full border border-[var(--accent)] bg-[var(--accent-dim)] px-3 py-1 text-[var(--accent)]">GPA {item.gpa}</span>
               </div>
-              <p className="mt-4 text-[var(--muted)]">{item.text}</p>
-              <p className="mt-5 font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.12em] text-[var(--accent)]">
+              <p className="mt-4 min-h-28 flex-1 text-[var(--muted)]">{item.text}</p>
+              <p className="mt-auto pt-5 font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.12em] text-[var(--accent)]">
                 Visit Website →
               </p>
             </a>
@@ -471,11 +546,19 @@ export default function PortfolioClient() {
             Show All Certificates
           </Link>
         </div>
-        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {certificates.slice(0, 3).map((certificate) => (
+        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {certificates.slice(0, 4).map((certificate) => (
             <Link key={certificate.slug} href={`/certificates/${certificate.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
-              <div className="certificate-card-cover mb-5 flex aspect-[16/9] items-center justify-center rounded-2xl border border-[var(--border)]">
+              <div className="certificate-card-cover relative mb-5 flex aspect-[16/9] items-center justify-center overflow-hidden rounded-2xl border border-[var(--border)]">
                 <span className="font-[var(--font-serif)] text-4xl text-[var(--accent)]">{certificate.score ?? certificate.year}</span>
+                <img
+                  src={certificate.imageFile}
+                  alt={`${certificate.title} certificate`}
+                  className="absolute inset-0 z-10 h-full w-full object-cover"
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                  }}
+                />
               </div>
               <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{certificate.issuer}</p>
               <h3 className="mt-3 font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{certificate.title}</h3>
@@ -559,8 +642,8 @@ export default function PortfolioClient() {
       <Section id="writing" alt>
         <SectionLabel index="07" label="Writing" />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Stories & Thoughts</h2>
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {stories.map((story) => (
+        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          {stories.slice(0, 3).map((story) => (
             <Link key={story.slug} href={`/stories/${story.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">
               <div className="story-card-cover mb-5 flex aspect-[16/10] items-center justify-center rounded-2xl border border-[var(--border)]">
                 <span className="font-[var(--font-serif)] text-5xl text-[var(--accent)]">{getStoryKind(story.type)}</span>
