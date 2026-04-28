@@ -195,10 +195,10 @@ body.custom-cursor-ready .home-shell * {
 }
 
 .section-nav-controls {
-  position: absolute;
+  position: fixed;
   right: clamp(1rem, 3vw, 2.25rem);
   bottom: clamp(1rem, 3vw, 2rem);
-  z-index: 20;
+  z-index: 90;
   display: grid;
   gap: 0.55rem;
   padding: 0.45rem;

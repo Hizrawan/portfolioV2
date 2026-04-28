@@ -213,7 +213,6 @@ function Section({
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-12">
         {children}
       </div>
-      <SectionNavControls currentId={id} />
     </section>
   );
 }
@@ -233,8 +232,8 @@ export default function PortfolioClient({
   const homeCertificates = certificates.filter((certificate) => certificate.featuredOnHome);
 
   useEffect(() => {
-    const sections = navItems
-      .map(([, href]) => document.querySelector<HTMLElement>(href))
+    const sections = sectionOrder
+      .map((id) => document.querySelector<HTMLElement>(`#${id}`))
       .filter((section): section is HTMLElement => Boolean(section));
     if (!sections.length) return;
 
@@ -317,6 +316,7 @@ export default function PortfolioClient({
   return (
     <main className="home-shell min-h-screen overflow-x-hidden bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent)] selection:text-[var(--bg)]">
       <div ref={cursorRef} className="custom-crosshair" aria-hidden="true" />
+      <SectionNavControls currentId={activeSection} />
       <header className="fixed left-1/2 top-4 z-50 flex w-[min(1180px,calc(100%-1.5rem))] -translate-x-1/2 items-center justify-between rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_74%,transparent)] px-4 py-3 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:px-6">
         <div className="flex min-w-0 items-center gap-5 lg:gap-10">
           <a href="#hero" className="shrink-0 rounded-full border border-[var(--border2)] bg-[var(--accent-dim)] px-3 py-2 font-[var(--font-mono)] text-xs tracking-[0.12em] text-[var(--text)]">
@@ -414,7 +414,6 @@ export default function PortfolioClient({
             </div>
           </div>
         </section>
-        <SectionNavControls currentId="hero" />
       </div>
 
       <Section id="about" alt>
