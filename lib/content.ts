@@ -20,6 +20,18 @@ export type Story = {
   details: string[];
 };
 
+export type Certificate = {
+  slug: string;
+  title: string;
+  issuer: string;
+  year: string;
+  status: string;
+  score?: string;
+  summary: string;
+  details: string[];
+  externalUrl?: string;
+};
+
 export const projects: Project[] = [
   {
     slug: "portfolio-website",
@@ -142,8 +154,88 @@ export const stories: Story[] = [
   },
 ];
 
+export const certificates: Certificate[] = [
+  {
+    slug: "capm-preparation",
+    title: "Certified Associate in Project Management (CAPM)",
+    issuer: "Project Management Institute",
+    year: "In Progress",
+    status: "Preparing",
+    summary:
+      "Formal project management certification path used to strengthen planning, coordination, risk, and delivery knowledge.",
+    details: [
+      "Currently preparing for the CAPM certification to formalize project management knowledge and methodologies.",
+      "The preparation supports a transition from software engineering delivery into IT project coordination and associate project management work.",
+      "Focus areas include scope, schedule, stakeholder communication, risk identification, and structured project documentation.",
+    ],
+    externalUrl: "https://www.pmi.org/certifications/certified-associate-capm",
+  },
+  {
+    slug: "toefl-ibt",
+    title: "TOEFL iBT",
+    issuer: "ETS",
+    year: "Completed",
+    status: "Language Certificate",
+    score: "96",
+    summary:
+      "English proficiency certification supporting international study, work, and cross-functional communication.",
+    details: [
+      "Achieved a TOEFL iBT score of 96, demonstrating professional English communication capability.",
+      "This supports academic research, technical documentation, stakeholder coordination, and international work environments.",
+    ],
+    externalUrl: "https://www.ets.org/toefl.html",
+  },
+  {
+    slug: "toeic",
+    title: "TOEIC",
+    issuer: "ETS",
+    year: "Completed",
+    status: "Language Certificate",
+    score: "960",
+    summary:
+      "Workplace English proficiency certificate for professional communication and business contexts.",
+    details: [
+      "Achieved a TOEIC score of 960, reflecting strong English comprehension for workplace and business communication.",
+      "The certification supports collaboration with international teams and professional documentation.",
+    ],
+    externalUrl: "https://www.ets.org/toeic.html",
+  },
+  {
+    slug: "tocfl-a1",
+    title: "TOCFL A1",
+    issuer: "Steering Committee for the Test Of Proficiency-Huayu",
+    year: "Completed",
+    status: "Language Certificate",
+    score: "A1",
+    summary:
+      "Basic Mandarin proficiency certification supporting daily communication while working in Taiwan.",
+    details: [
+      "Completed TOCFL A1 as part of Mandarin language development while living and working in Taiwan.",
+      "The credential supports everyday communication and cultural adaptation in a Mandarin-speaking environment.",
+    ],
+    externalUrl: "https://tocfl.edu.tw/",
+  },
+  {
+    slug: "german-a1",
+    title: "German A1",
+    issuer: "German Language Proficiency",
+    year: "Completed",
+    status: "Language Certificate",
+    score: "A1",
+    summary:
+      "Basic German language proficiency listed as part of multilingual communication development.",
+    details: [
+      "Completed foundational German language study at A1 level.",
+      "The certificate reflects a broader commitment to multilingual learning and international communication.",
+    ],
+  },
+];
+
 export const projectBySlug = new Map(projects.map((project) => [project.slug, project]));
 export const storyBySlug = new Map(stories.map((story) => [story.slug, story]));
+export const certificateBySlug = new Map(
+  certificates.map((certificate) => [certificate.slug, certificate]),
+);
 
 export const projectSlugByTitle = new Map(
   projects.map((project) => [project.title, project.slug]),

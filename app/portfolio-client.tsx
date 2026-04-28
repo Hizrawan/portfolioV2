@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { projects, stories } from "../lib/content";
+import { certificates, projects, stories } from "../lib/content";
 
 const navItems = [
   ["About", "#about"],
   ["Experience", "#experience"],
   ["Education", "#education"],
+  ["Certificates", "#certificates"],
   ["Skills", "#skills"],
   ["Projects", "#projects"],
   ["Stories", "#writing"],
@@ -20,36 +21,36 @@ const experiences = [
     title: "Backend Engineer",
     company: "Xinchuan Telecommunication Co. Ltd",
     summary:
-      "Building reliable backend services, data flows, and integrations for production systems.",
-    detail:
-      "Focused on API reliability, query performance, cross-team delivery, and translating technical constraints into clear product decisions.",
+      "Maintaining Laravel backend systems and developing scalable Go microservices in production.",
+    detail: [
+      "Maintain and enhance backend systems built with Laravel, including bug fixing, feature improvements, and performance optimization.",
+      "Manage MySQL operations through schema updates, query tuning, and data integrity work.",
+      "Design and develop Go microservices, RESTful APIs, internal services, logging, error handling, and monitoring for stable integrations.",
+    ],
   },
   {
-    date: "2022 - 2024",
-    title: "Backend Developer",
+    date: "Mar 2024 - Oct 2024",
+    title: "Fullstack Developer",
     company: "Xiangshun Information Co. Ltd",
     summary:
-      "Delivered backend modules for enterprise workflows using .NET, SQL Server, and web UI collaboration.",
-    detail:
-      "Worked through requirements, implementation, testing, release support, and maintenance for business-critical features.",
+      "Built Taiwan government digital systems using .NET Core, SQL Server, and Blazor.",
+    detail: [
+      "Developed backend services and RESTful APIs with C# and .NET Core to support government workflows and data processing.",
+      "Built database structures in Microsoft SQL Server, including authentication, RBAC, and validation flows.",
+      "Implemented Blazor interfaces, dashboards, forms, administrative panels, and API integrations for real-time data operations.",
+    ],
   },
   {
-    date: "2019 - 2020",
+    date: "Feb 2019 - Dec 2020",
     title: "Fullstack Developer",
     company: "Fujitsu Indonesia",
     summary:
-      "Contributed to React Native mobile work and practical REST API integration during internship.",
-    detail:
-      "Built early foundations in product collaboration, UI implementation, and iterative quality improvements.",
-  },
-  {
-    date: "2017",
-    title: "Programmer Internship",
-    company: "PT LAPI Divusi",
-    summary:
-      "Contributed to React Native mobile work and practical REST API integration during internship.",
-    detail:
-      "Built early foundations in product collaboration, UI implementation, and iterative quality improvements.",
+      "Delivered healthcare system features across .NET Core APIs, PostgreSQL, and Kendo UI.",
+    detail: [
+      "Designed RESTful APIs and business logic for patient registration, appointment management, and medical record workflows.",
+      "Designed and optimized PostgreSQL structures for healthcare system modules.",
+      "Built Kendo UI dashboards, forms, validation flows, and high-volume data grids with virtualization, filtering, and pagination.",
+    ],
   },
 ];
 
@@ -72,21 +73,27 @@ const skills = {
 const education = [
   {
     title: "National Chin-Yi University of Technology",
-    meta: "Computer Science",
-    text: "Built the technical base for software engineering and backend development.",
-    href: "https://binus.ac.id",
+    meta: "Master of Science in Computer Science",
+    year: "2021 - 2023",
+    gpa: "3.92",
+    text: "Thesis: A Novel Data Hiding Scheme based on Block Features Enhanced AMBTC.",
+    href: "https://www.ncut.edu.tw/",
   },
   {
     title: "Bina Nusantara University",
-    meta: "Computer Science",
-    text: "Studying PM fundamentals while transitioning from engineering into project leadership.",
-    href: "",
+    meta: "Bachelor of Science in Computer Science",
+    year: "2018 - 2021",
+    gpa: "3.27",
+    text: "Thesis: Mobile application for clinical laboratory examination booking using React Native.",
+    href: "https://binus.ac.id",
   },
   {
     title: "Politeknik Negeri Bandung",
-    meta: "Informatics Engineering",
-    text: "English proficiency supporting international work and study environments.",
-    href: "",
+    meta: "Associate's Degree in Computer Science",
+    year: "2015 - 2018",
+    gpa: "2.85",
+    text: "Final project: Indonesian sign language to text translation using convolutional neural network.",
+    href: "https://www.polban.ac.id/",
   },
 ];
 
@@ -110,6 +117,17 @@ function ThemeIcon() {
       <line x1="21" y1="12" x2="23" y2="12" />
       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  );
+}
+
+function GitHubIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <path
+        fill="currentColor"
+        d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.45 11.45 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z"
+      />
     </svg>
   );
 }
@@ -278,7 +296,7 @@ export default function PortfolioClient() {
           <a href="#hero" className="shrink-0 rounded-full border border-[var(--border2)] bg-[var(--accent-dim)] px-3 py-2 font-[var(--font-mono)] text-xs tracking-[0.12em] text-[var(--text)]">
             Hizrawan Dwi Oka
           </a>
-          <nav className="hidden gap-4 overflow-x-auto font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.1em] text-[var(--muted)] md:flex lg:gap-7">
+          <nav className="hidden gap-4 overflow-x-auto font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.1em] text-[var(--muted)] lg:flex lg:gap-7">
             {navItems.map(([label, href]) => (
               <a key={href} href={href} className="transition hover:text-[var(--accent)]">
                 {label}
@@ -287,8 +305,15 @@ export default function PortfolioClient() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          <a href="https://github.com/Hizrawan" target="_blank" rel="noreferrer" className="hidden font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] transition hover:text-[var(--accent)] sm:inline">
-            GitHub
+          <a
+            href="https://github.com/Hizrawan"
+            target="_blank"
+            rel="noreferrer"
+            title="GitHub"
+            className="grid h-10 w-10 place-items-center rounded-full border border-[var(--border2)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+          >
+            <GitHubIcon />
+            <span className="sr-only">GitHub</span>
           </a>
           <button
             id="themeToggle"
@@ -298,6 +323,23 @@ export default function PortfolioClient() {
           >
             <ThemeIcon />
           </button>
+          <details className="group relative lg:hidden">
+            <summary className="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-full border border-[var(--border2)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] [&::-webkit-details-marker]:hidden">
+              <span className="relative h-3.5 w-5">
+                <span className="absolute left-0 top-0 h-px w-full bg-current transition group-open:top-1.5 group-open:rotate-45" />
+                <span className="absolute left-0 top-1.5 h-px w-full bg-current transition group-open:opacity-0" />
+                <span className="absolute left-0 top-3 h-px w-full bg-current transition group-open:top-1.5 group-open:-rotate-45" />
+              </span>
+              <span className="sr-only">Open navigation</span>
+            </summary>
+            <nav className="absolute right-0 top-12 grid min-w-52 gap-1 rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_94%,transparent)] p-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] shadow-[0_18px_60px_rgba(0,0,0,0.26)] backdrop-blur-2xl">
+              {navItems.map(([label, href]) => (
+                <a key={href} href={href} className="rounded-xl px-3 py-2 transition hover:bg-[var(--accent-dim)] hover:text-[var(--accent)]">
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </details>
         </div>
       </header>
 
@@ -344,7 +386,7 @@ export default function PortfolioClient() {
           </div>
           <div>
             <h2 className="max-w-3xl font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-[1.02] tracking-[-0.03em]">
-              CAPM® – Certified Associate in Project Management | Software Engineer.
+              CAPM candidate transitioning from software engineering into IT project management.
             </h2>
             <p className="mt-6 leading-8 text-[var(--muted)]">
              As a programmer, I built backend systems. But over time, I found myself increasingly focused on planning, coordination, and turning technical work into reliable delivery outcomes. That evolution—from developer to project enabler—is exactly why I'm pursuing the Associate Project Manager role: to apply my technical foundation and new delivery skills in a dedicated project leadership capacity.
@@ -364,7 +406,7 @@ export default function PortfolioClient() {
         <SectionLabel index="02" label="Experience" />
         <div className="space-y-4">
           {experiences.map((item) => (
-            <details key={item.title} className="group rounded-3xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:border-[var(--accent)]">
+            <details key={`${item.company}-${item.date}`} className="group rounded-3xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:border-[var(--accent)]">
               <summary className="grid cursor-pointer list-none gap-4 lg:grid-cols-[180px_1fr_auto] lg:items-center">
                 <span className="font-[var(--font-mono)] text-xs uppercase tracking-[0.16em] text-[var(--muted)]">{item.date}</span>
                 <span>
@@ -377,7 +419,13 @@ export default function PortfolioClient() {
                   <span className="hidden group-open:inline">Close -</span>
                 </span>
               </summary>
-              <p className="mt-5 max-w-3xl pl-0 leading-8 text-[var(--muted)] lg:pl-[180px]">{item.detail}</p>
+              <ul className="mt-5 grid max-w-3xl gap-3 pl-5 leading-8 text-[var(--muted)] lg:ml-[180px]">
+                {item.detail.map((detail) => (
+                  <li key={detail} className="list-disc">
+                    {detail}
+                  </li>
+                ))}
+              </ul>
             </details>
           ))}
         </div>
@@ -397,6 +445,10 @@ export default function PortfolioClient() {
             >
               <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{item.meta}</p>
               <h3 className="mt-3 font-[var(--font-serif)] text-2xl">{item.title}</h3>
+              <div className="mt-4 flex flex-wrap gap-2 font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.1em]">
+                <span className="rounded-full border border-[var(--border2)] px-3 py-1 text-[var(--text)]">{item.year}</span>
+                <span className="rounded-full border border-[var(--accent)] bg-[var(--accent-dim)] px-3 py-1 text-[var(--accent)]">GPA {item.gpa}</span>
+              </div>
               <p className="mt-4 text-[var(--muted)]">{item.text}</p>
               <p className="mt-5 font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.12em] text-[var(--accent)]">
                 Visit Website →
@@ -406,8 +458,35 @@ export default function PortfolioClient() {
         </div>
       </Section>
 
-      <Section id="skills">
-        <SectionLabel index="04" label="Skills" />
+      <Section id="certificates">
+        <SectionLabel index="04" label="Certificates" />
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Certificates & Credentials</h2>
+            <p className="mt-5 max-w-2xl leading-8 text-[var(--muted)]">
+              Certifications and language credentials that support project coordination, international collaboration, and professional communication.
+            </p>
+          </div>
+          <Link href="/certificates" className="inline-flex w-fit rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
+            Show All Certificates
+          </Link>
+        </div>
+        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {certificates.slice(0, 3).map((certificate) => (
+            <Link key={certificate.slug} href={`/certificates/${certificate.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
+              <div className="certificate-card-cover mb-5 flex aspect-[16/9] items-center justify-center rounded-2xl border border-[var(--border)]">
+                <span className="font-[var(--font-serif)] text-4xl text-[var(--accent)]">{certificate.score ?? certificate.year}</span>
+              </div>
+              <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{certificate.issuer}</p>
+              <h3 className="mt-3 font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{certificate.title}</h3>
+              <p className="mt-4 text-[var(--muted)]">{certificate.summary}</p>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="skills" alt>
+        <SectionLabel index="05" label="Skills" />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Technical Expertise</h2>
         <div className="mt-8 grid overflow-hidden rounded-[1.75rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_72%,transparent)] shadow-[0_22px_80px_rgba(0,0,0,0.16)] backdrop-blur-xl lg:grid-cols-[260px_1fr]">
           <div className="border-b border-[var(--border)] bg-[var(--bg2)]/60 p-3 lg:border-b-0 lg:border-r">
@@ -445,11 +524,11 @@ export default function PortfolioClient() {
         </div>
       </Section>
 
-      <Section id="projects" alt>
-        <SectionLabel index="05" label="Projects" />
+      <Section id="projects">
+        <SectionLabel index="06" label="Projects" />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Personal Projects</h2>
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {projects.slice(0, 3).map((project) => (
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {projects.slice(0, 2).map((project) => (
             <Link key={project.slug} href={`/projects/${project.slug}`} className="group relative overflow-hidden rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
               <span className="absolute right-0 top-0 h-28 w-28 translate-x-8 -translate-y-8 rounded-full bg-[var(--accent-dim)] blur-2xl transition group-hover:scale-150" />
               <div className="project-card-cover relative mb-5 flex aspect-[16/10] items-end overflow-hidden rounded-2xl border border-[var(--border)] p-4">
@@ -477,8 +556,8 @@ export default function PortfolioClient() {
         </div>
       </Section>
 
-      <Section id="writing">
-        <SectionLabel index="06" label="Writing" />
+      <Section id="writing" alt>
+        <SectionLabel index="07" label="Writing" />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Stories & Thoughts</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {stories.map((story) => (
@@ -505,15 +584,15 @@ export default function PortfolioClient() {
         </div>
       </Section>
 
-      <Section id="contact" alt>
-        <SectionLabel index="07" label="Contact" />
+      <Section id="contact">
+        <SectionLabel index="08" label="Contact" />
         <div className="max-w-3xl">
           <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Let&apos;s build the next thing.</h2>
           <p className="mt-6 text-lg leading-8 text-[var(--muted)]">
             Reach out for backend engineering work, project collaboration, or writing conversations.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a href="mailto:hizrawan@example.com" className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">Email Me</a>
+            <a href="mailto:hizrawandwioka@gmail.com" className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">Email Me</a>
             <a href="https://github.com/Hizrawan" target="_blank" rel="noreferrer" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">GitHub</a>
           </div>
         </div>
