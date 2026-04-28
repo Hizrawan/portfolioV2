@@ -158,89 +158,39 @@ export const stories: Story[] = [
 
 export const certificates: Certificate[] = [
   {
-    slug: "capm-preparation",
-    title: "Certified Associate in Project Management (CAPM)",
-    issuer: "Project Management Institute",
-    year: "In Progress",
-    status: "Preparing",
-    imageFile: "/certificates/capm-preparation.jpg",
-    pdfFile: "/certificates/capm-preparation.pdf",
+    slug: "google-project-management-specialization",
+    title: "Google Project Management Specialization",
+    issuer: "Google / Coursera",
+    year: "2024",
+    status: "Completed",
+    imageFile: "/certificates/Google Project Management Specialization.jpg",
+    pdfFile: "/certificates/google-project-management-specialization.pdf",
     summary:
-      "Formal project management certification path used to strengthen planning, coordination, risk, and delivery knowledge.",
+      "Comprehensive project management certification covering foundational concepts, methodologies, and practical applications for effective project leadership.",
     details: [
-      "Currently preparing for the CAPM certification to formalize project management knowledge and methodologies.",
-      "The preparation supports a transition from software engineering delivery into IT project coordination and associate project management work.",
-      "Focus areas include scope, schedule, stakeholder communication, risk identification, and structured project documentation.",
+      "The specialization provided a structured learning path through key project management principles, including scope, schedule, and stakeholder management.",
+      "The curriculum included real-world case studies and practical exercises to apply concepts in simulated project scenarios.",
+      "This credential supports a strong foundation in project management, complementing technical experience with formalized knowledge and best practices.",
     ],
-    externalUrl: "https://www.pmi.org/certifications/certified-associate-capm",
+    externalUrl: "https://www.coursera.org/account/accomplishments/specialization/3Z5K9Z6L2Z5C",
   },
-  {
-    slug: "toefl-ibt",
-    title: "TOEFL iBT",
-    issuer: "ETS",
-    year: "Completed",
-    status: "Language Certificate",
-    score: "96",
-    imageFile: "/certificates/toefl-ibt.jpg",
-    pdfFile: "/certificates/toefl-ibt.pdf",
+   {
+    slug: "architecting-on-aws-(building-cloud-architecture-on-aws)",
+    title: "Architecting on AWS (Building Cloud Architecture on AWS)",
+    issuer: "Dicoding Indonesia",
+    year: "2024",
+    status: "Completed",
+    imageFile: "/certificates/Architecting on AWS (Building Cloud Architecture on AWS).jpg",
+    pdfFile: "/certificates/Architecting on AWS (Building Cloud Architecture on AWS).pdf",
     summary:
-      "English proficiency certification supporting international study, work, and cross-functional communication.",
+      "Cloud architecture certification focused on designing scalable, secure, and cost-effective solutions using AWS services.",
     details: [
-      "Achieved a TOEFL iBT score of 96, demonstrating professional English communication capability.",
-      "This supports academic research, technical documentation, stakeholder coordination, and international work environments.",
+      "This certification path provided foundational knowledge in cloud architecture principles and AWS service offerings.",
+      "The curriculum covered key topics such as designing for scalability, security best practices, and cost optimization strategies on AWS.",
+      "This credential supports a broader understanding of cloud infrastructure, which complements project management skills in technology-focused projects.",
     ],
-    externalUrl: "https://www.ets.org/toefl.html",
-  },
-  {
-    slug: "toeic",
-    title: "TOEIC",
-    issuer: "ETS",
-    year: "Completed",
-    status: "Language Certificate",
-    score: "960",
-    imageFile: "/certificates/toeic.jpg",
-    pdfFile: "/certificates/toeic.pdf",
-    summary:
-      "Workplace English proficiency certificate for professional communication and business contexts.",
-    details: [
-      "Achieved a TOEIC score of 960, reflecting strong English comprehension for workplace and business communication.",
-      "The certification supports collaboration with international teams and professional documentation.",
-    ],
-    externalUrl: "https://www.ets.org/toeic.html",
-  },
-  {
-    slug: "tocfl-a1",
-    title: "TOCFL A1",
-    issuer: "Steering Committee for the Test Of Proficiency-Huayu",
-    year: "Completed",
-    status: "Language Certificate",
-    score: "A1",
-    imageFile: "/certificates/tocfl-a1.jpg",
-    pdfFile: "/certificates/tocfl-a1.pdf",
-    summary:
-      "Basic Mandarin proficiency certification supporting daily communication while working in Taiwan.",
-    details: [
-      "Completed TOCFL A1 as part of Mandarin language development while living and working in Taiwan.",
-      "The credential supports everyday communication and cultural adaptation in a Mandarin-speaking environment.",
-    ],
-    externalUrl: "https://tocfl.edu.tw/",
-  },
-  {
-    slug: "german-a1",
-    title: "German A1",
-    issuer: "German Language Proficiency",
-    year: "Completed",
-    status: "Language Certificate",
-    score: "A1",
-    imageFile: "/certificates/german-a1.jpg",
-    pdfFile: "/certificates/german-a1.pdf",
-    summary:
-      "Basic German language proficiency listed as part of multilingual communication development.",
-    details: [
-      "Completed foundational German language study at A1 level.",
-      "The certificate reflects a broader commitment to multilingual learning and international communication.",
-    ],
-  },
+    externalUrl: "https://www.coursera.org/account/accomplishments/specialization/3Z5K9Z6L2Z5C",
+  }
 ];
 
 export const projectBySlug = new Map(projects.map((project) => [project.slug, project]));

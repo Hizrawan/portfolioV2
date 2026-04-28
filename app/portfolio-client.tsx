@@ -450,7 +450,7 @@ export default function PortfolioClient() {
                 Profile Photo
               </span>
               <img
-                src="/profile.jpg"
+                src="/hizrawan-profile.jpg"
                 alt="Hizrawan Dwi Oka portrait"
                 className="relative z-10 h-full w-full rounded-[1.15rem] object-cover"
                 onError={(event) => {
