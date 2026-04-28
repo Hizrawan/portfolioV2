@@ -60,7 +60,7 @@ export default function CertificatesPage() {
 
               <div className="content-link-row">
                 <Link href={`/certificates/${certificate.slug}`} className="content-link">
-                  View Detail
+                  View Certificate
                 </Link>
                 {certificate.externalUrl ? (
                   <a
