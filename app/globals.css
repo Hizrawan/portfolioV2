@@ -566,6 +566,23 @@ body.custom-cursor-ready .home-shell * {
     transform 0.2s;
 }
 
+.content-card > h2 {
+  min-height: 4.4rem;
+}
+
+.content-card > p:not(.content-status) {
+  min-height: 6.3rem;
+}
+
+.content-card .content-tag-row {
+  min-height: 2.25rem;
+}
+
+.content-card .content-link-row {
+  margin-top: auto;
+  padding-top: 1.1rem;
+}
+
 .content-card-cover {
   aspect-ratio: 16 / 10;
   display: flex;

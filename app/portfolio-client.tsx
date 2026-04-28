@@ -642,6 +642,9 @@ export default function PortfolioClient() {
       <Section id="writing" alt>
         <SectionLabel index="07" label="Writing" />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Stories & Thoughts</h2>
+        <p className="mt-5 max-w-2xl leading-8 text-[var(--muted)]">
+          In my spare time, I like to write. This section collects stories, blog notes, and personal writing pieces I have created outside of engineering work.
+        </p>
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {stories.slice(0, 3).map((story) => (
             <Link key={story.slug} href={`/stories/${story.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">

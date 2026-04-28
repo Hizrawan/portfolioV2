@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
 import ContentNav from "../../components/content-nav";
-import { certificates } from "../../lib/content";
+import { getAllCertificates } from "../../lib/certificates-server";
 
 export const metadata = {
   title: "Hizrawan's Portfolio",
@@ -14,6 +14,8 @@ function publicFileExists(filePath: string) {
 }
 
 export default function CertificatesPage() {
+  const certificates = getAllCertificates();
+
   return (
     <main className="content-page">
       <ContentNav />
