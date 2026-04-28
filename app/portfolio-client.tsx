@@ -18,7 +18,7 @@ const experiences = [
   {
     date: "2024 - Present",
     title: "Backend Engineer",
-    company: "Telecom / Enterprise Systems",
+    company: "Xinchuan Telecommunication Co. Ltd",
     summary:
       "Building reliable backend services, data flows, and integrations for production systems.",
     detail:
@@ -27,15 +27,24 @@ const experiences = [
   {
     date: "2022 - 2024",
     title: "Backend Developer",
-    company: ".NET / Business Applications",
+    company: "Xiangshun Information Co. Ltd",
     summary:
       "Delivered backend modules for enterprise workflows using .NET, SQL Server, and web UI collaboration.",
     detail:
       "Worked through requirements, implementation, testing, release support, and maintenance for business-critical features.",
   },
   {
-    date: "2018",
-    title: "Programmer Intern",
+    date: "2019 - 2020",
+    title: "Fullstack Developer",
+    company: "Fujitsu Indonesia",
+    summary:
+      "Contributed to React Native mobile work and practical REST API integration during internship.",
+    detail:
+      "Built early foundations in product collaboration, UI implementation, and iterative quality improvements.",
+  },
+  {
+    date: "2017",
+    title: "Programmer Internship",
     company: "PT LAPI Divusi",
     summary:
       "Contributed to React Native mobile work and practical REST API integration during internship.",
@@ -62,22 +71,22 @@ const skills = {
 
 const education = [
   {
-    title: "Bina Nusantara University",
+    title: "National Chin-Yi University of Technology",
     meta: "Computer Science",
     text: "Built the technical base for software engineering and backend development.",
     href: "https://binus.ac.id",
   },
   {
-    title: "CAPM Preparation",
-    meta: "Project Management",
+    title: "Bina Nusantara University",
+    meta: "Computer Science",
     text: "Studying PM fundamentals while transitioning from engineering into project leadership.",
-    href: "https://www.pmi.org/certifications/certified-associate-capm",
+    href: "",
   },
   {
-    title: "TOEFL iBT",
-    meta: "Score 96",
+    title: "Politeknik Negeri Bandung",
+    meta: "Informatics Engineering",
     text: "English proficiency supporting international work and study environments.",
-    href: "https://www.ets.org/toefl/test-takers/ibt.html",
+    href: "",
   },
 ];
 
@@ -299,7 +308,7 @@ export default function PortfolioClient() {
           <div className="max-w-4xl">
             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_78%,transparent)] px-4 py-2 font-[var(--font-mono)] text-xs uppercase tracking-[0.18em] text-[var(--accent)] shadow-[0_18px_50px_rgba(0,0,0,0.16)] backdrop-blur-xl">
               <span className="h-2 w-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
-              Backend Engineer · PM Track
+              Associate Project Manager | Software Engineer
             </div>
             <h1 className="font-[var(--font-serif)] text-[clamp(3.4rem,9vw,8.6rem)] font-light leading-[0.92] tracking-[-0.055em]">
               <strong className="bg-gradient-to-br from-[var(--text)] via-[var(--text)] to-[var(--accent)] bg-clip-text font-light text-transparent">
@@ -308,8 +317,8 @@ export default function PortfolioClient() {
               <span className="typing-caret ml-2 inline-block h-[0.82em] w-[2px] translate-y-[0.08em] bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
             </h1>
             <p className="mt-7 max-w-3xl text-lg font-light leading-9 text-[var(--muted)] sm:text-xl">
-              A <span className="rounded-lg border border-[rgba(0,229,180,0.25)] bg-[var(--accent-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent)]">Backend Engineer</span> with 5+ years of experience,
-              transitioning into <span className="rounded-lg border border-[rgba(212,168,67,0.25)] bg-[var(--accent2-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent2)]">Project Management</span>.
+              An <span className="rounded-lg border border-[rgba(0,229,180,0.25)] bg-[var(--accent-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent)]">Associate Project Manager</span> with 5+ years of experience as a
+              <span className="rounded-lg border border-[rgba(212,168,67,0.25)] bg-[var(--accent2-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent2)]">Software Engineer</span>.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <a href="#projects" className="group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
@@ -335,13 +344,13 @@ export default function PortfolioClient() {
           </div>
           <div>
             <h2 className="max-w-3xl font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-[1.02] tracking-[-0.03em]">
-              Engineer moving toward delivery leadership.
+              CAPM® – Certified Associate in Project Management | Software Engineer.
             </h2>
             <p className="mt-6 leading-8 text-[var(--muted)]">
-              I build backend systems and increasingly focus on planning, coordination, and turning technical work into reliable delivery outcomes.
+             As a programmer, I built backend systems. But over time, I found myself increasingly focused on planning, coordination, and turning technical work into reliable delivery outcomes. That evolution—from developer to project enabler—is exactly why I'm pursuing the Associate Project Manager role: to apply my technical foundation and new delivery skills in a dedicated project leadership capacity.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {["5+ Years Experience", "TOEFL iBT 96", "CAPM In Progress"].map((item) => (
+              {["Project Management", "Software Engineering", "CAPM®"].map((item) => (
                 <div key={item} className="rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-5 font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] shadow-[0_16px_40px_rgba(0,0,0,0.12)] transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--text)]">
                   {item}
                 </div>

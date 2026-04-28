@@ -20,8 +20,7 @@ export default function ProjectsPage() {
         <p className="content-kicker">Portfolio</p>
         <h1 className="content-title">All Projects</h1>
         <p className="content-subtitle">
-          Kumpulan project yang pernah dikerjakan, lengkap dengan ringkasan dan
-          halaman detail tiap project.
+          A collection of projects that have been worked on, complete with a summary and a detailed page for each project.
         </p>
 
         <div className="content-grid">

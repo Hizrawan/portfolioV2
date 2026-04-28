@@ -28,8 +28,7 @@ export default function StoriesPage() {
         <p className="content-kicker">Writing</p>
         <h1 className="content-title">All Stories</h1>
         <p className="content-subtitle">
-          Halaman ini berisi semua tulisan dan karya cerita, dengan halaman
-          detail untuk setiap judul.
+          This page contains all writings and story works, with a detail page for each title.
         </p>
 
         <div className="content-grid">
