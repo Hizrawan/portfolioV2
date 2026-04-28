@@ -1,0 +1,61 @@
+import Link from "next/link";
+import ContentNav from "../../components/content-nav";
+import { stories } from "../../lib/content";
+
+export const metadata = {
+  title: "All Stories — Hizrawan",
+  description: "List of all stories and writings.",
+};
+
+function getStoryKind(type: string) {
+  const lower = type.toLowerCase();
+  if (lower.includes("cerpen")) return "Cerpen";
+  if (lower.includes("novel")) return "Novel";
+  if (lower.includes("buku") || lower.includes("book")) return "Buku";
+  return "Blog";
+}
+
+export default function StoriesPage() {
+  return (
+    <main className="content-page">
+      <ContentNav />
+
+      <section className="content-wrapper">
+        <Link href="/" className="content-back-link">
+          ← Back to Home
+        </Link>
+
+        <p className="content-kicker">Writing</p>
+        <h1 className="content-title">All Stories</h1>
+        <p className="content-subtitle">
+          Halaman ini berisi semua tulisan dan karya cerita, dengan halaman
+          detail untuk setiap judul.
+        </p>
+
+        <div className="content-grid">
+          {stories.map((story) => (
+            <article key={story.slug} className="content-card">
+              <div className="story-card-cover content-card-cover">
+                <span>{getStoryKind(story.type)}</span>
+              </div>
+
+              <div className="content-card-meta">
+                <span>{story.type}</span>
+                <span>{story.readTime}</span>
+              </div>
+              <h2>{story.title}</h2>
+              <p>{story.excerpt}</p>
+              <p className="content-status">{story.status}</p>
+
+              <div className="content-link-row">
+                <Link href={`/stories/${story.slug}`} className="content-link">
+                  View Detail
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}

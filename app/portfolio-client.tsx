@@ -1,0 +1,518 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { projects, stories } from "../lib/content";
+
+const navItems = [
+  ["About", "#about"],
+  ["Experience", "#experience"],
+  ["Education", "#education"],
+  ["Skills", "#skills"],
+  ["Projects", "#projects"],
+  ["Stories", "#writing"],
+  ["Contact", "#contact"],
+] as const;
+
+const experiences = [
+  {
+    date: "2024 - Present",
+    title: "Backend Engineer",
+    company: "Telecom / Enterprise Systems",
+    summary:
+      "Building reliable backend services, data flows, and integrations for production systems.",
+    detail:
+      "Focused on API reliability, query performance, cross-team delivery, and translating technical constraints into clear product decisions.",
+  },
+  {
+    date: "2022 - 2024",
+    title: "Backend Developer",
+    company: ".NET / Business Applications",
+    summary:
+      "Delivered backend modules for enterprise workflows using .NET, SQL Server, and web UI collaboration.",
+    detail:
+      "Worked through requirements, implementation, testing, release support, and maintenance for business-critical features.",
+  },
+  {
+    date: "2018",
+    title: "Programmer Intern",
+    company: "PT LAPI Divusi",
+    summary:
+      "Contributed to React Native mobile work and practical REST API integration during internship.",
+    detail:
+      "Built early foundations in product collaboration, UI implementation, and iterative quality improvements.",
+  },
+];
+
+const skills = {
+  "Project Management": [
+    "CAPM - In Progress",
+    "PMP - Planned",
+    "Agile / Scrum",
+    "Risk Management",
+    "Stakeholder Communication",
+    "Kanban",
+  ],
+  Backend: ["Go", "C# .NET Core", "Laravel", "REST API", "Microservices", "System Architecture"],
+  Database: ["PostgreSQL", "Microsoft SQL Server", "MySQL", "Query Optimization", "Data Modeling"],
+  "Frontend & Mobile": ["React Native", "JavaScript", "Blazor WASM", "HTML / CSS", "KendoUI"],
+  Tools: ["Git & GitHub", "Jira", "Notion", "Postman", "Docker", "Technical Documentation"],
+  Languages: ["Indonesian - Native", "English - TOEFL iBT 96", "Mandarin - Basic"],
+};
+
+const education = [
+  {
+    title: "Bina Nusantara University",
+    meta: "Computer Science",
+    text: "Built the technical base for software engineering and backend development.",
+    href: "https://binus.ac.id",
+  },
+  {
+    title: "CAPM Preparation",
+    meta: "Project Management",
+    text: "Studying PM fundamentals while transitioning from engineering into project leadership.",
+    href: "https://www.pmi.org/certifications/certified-associate-capm",
+  },
+  {
+    title: "TOEFL iBT",
+    meta: "Score 96",
+    text: "English proficiency supporting international work and study environments.",
+    href: "https://www.ets.org/toefl/test-takers/ibt.html",
+  },
+];
+
+function getStoryKind(type: string) {
+  const lower = type.toLowerCase();
+  if (lower.includes("cerpen")) return "Cerpen";
+  if (lower.includes("novel")) return "Novel";
+  if (lower.includes("buku") || lower.includes("book")) return "Buku";
+  return "Blog";
+}
+
+function ThemeIcon() {
+  return (
+    <svg id="themeIcon" viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+  );
+}
+
+function SectionLabel({ index, label }: { index: string; label: string }) {
+  return (
+    <p className="mb-8 flex items-center gap-4 font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.24em] text-[var(--accent)]">
+      <span className="opacity-55">{index}</span>
+      <span>{label}</span>
+      <span className="h-px w-20 bg-[var(--accent)] opacity-40" />
+    </p>
+  );
+}
+
+function Section({
+  id,
+  children,
+  alt = false,
+}: {
+  id: string;
+  children: React.ReactNode;
+  alt?: boolean;
+}) {
+  return (
+    <section
+      id={id}
+      className={`home-snap-section relative flex min-h-svh items-center overflow-hidden py-24 ${
+        alt ? "bg-[var(--bg2)]" : "bg-[var(--bg)]"
+      }`}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_10%,rgba(0,229,180,0.08),transparent_34%),radial-gradient(circle_at_90%_80%,rgba(212,168,67,0.07),transparent_36%)]" />
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-12">
+        {children}
+      </div>
+    </section>
+  );
+}
+
+export default function PortfolioClient() {
+  const [activeSkill, setActiveSkill] = useState<keyof typeof skills>("Project Management");
+  const [typedName, setTypedName] = useState("\u00a0");
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const skillNames = useMemo(() => Object.keys(skills) as Array<keyof typeof skills>, []);
+
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
+    cursor.style.opacity = "1";
+    cursor.style.left = `${window.innerWidth / 2}px`;
+    cursor.style.top = `${window.innerHeight / 2}px`;
+    document.body.classList.add("custom-cursor-ready");
+
+    const handlePointerMove = (event: PointerEvent) => {
+      cursor.style.left = `${event.clientX}px`;
+      cursor.style.top = `${event.clientY}px`;
+      cursor.style.opacity = "1";
+    };
+    const handleMouseLeave = () => {
+      cursor.style.opacity = "0";
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.body.classList.remove("custom-cursor-ready");
+    };
+  }, []);
+
+  useEffect(() => {
+    const fullName = "Hizrawan Dwi Oka.";
+    let index = 0;
+    let deleting = false;
+    let cancelled = false;
+    let timeoutId: number | undefined;
+
+    const loop = () => {
+      if (cancelled) return;
+      index = deleting ? Math.max(index - 1, 0) : Math.min(index + 1, fullName.length);
+      setTypedName(fullName.slice(0, index) || "\u00a0");
+
+      if (index === fullName.length) {
+        deleting = true;
+        timeoutId = window.setTimeout(loop, 1800);
+        return;
+      }
+      if (index === 0) {
+        deleting = false;
+        timeoutId = window.setTimeout(loop, 650);
+        return;
+      }
+      timeoutId = window.setTimeout(loop, deleting ? 38 : 72);
+    };
+
+    timeoutId = window.setTimeout(loop, 300);
+    return () => {
+      cancelled = true;
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
+    const snapTargets = Array.from(
+      document.querySelectorAll<HTMLElement>("#hero-wrap, .home-snap-section, footer"),
+    );
+    let snapTimeoutId: number | undefined;
+    let programmaticTimeoutId: number | undefined;
+    let isProgrammaticScroll = false;
+
+    const snapToNearest = () => {
+      if (isProgrammaticScroll || window.location.pathname !== "/") return;
+      const viewportCenter = window.scrollY + window.innerHeight / 2;
+      const nearest = snapTargets.reduce((closest, current) => {
+        const closestCenter = closest.offsetTop + closest.offsetHeight / 2;
+        const currentCenter = current.offsetTop + current.offsetHeight / 2;
+        return Math.abs(currentCenter - viewportCenter) < Math.abs(closestCenter - viewportCenter)
+          ? current
+          : closest;
+      });
+
+      const viewportHeight = window.innerHeight;
+      const isTallerThanViewport = nearest.offsetHeight > viewportHeight + 24;
+      if (isTallerThanViewport) {
+        const sectionTop = nearest.offsetTop;
+        const sectionBottom = sectionTop + nearest.offsetHeight;
+        const viewportTop = window.scrollY;
+        const viewportBottom = viewportTop + viewportHeight;
+        const isInsideScrollableSection =
+          viewportTop > sectionTop + 24 && viewportBottom < sectionBottom - 24;
+
+        if (isInsideScrollableSection) return;
+      }
+
+      if (Math.abs(window.scrollY - nearest.offsetTop) < 6) return;
+      isProgrammaticScroll = true;
+      window.scrollTo({
+        top: nearest.offsetTop,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      });
+      programmaticTimeoutId = window.setTimeout(() => {
+        isProgrammaticScroll = false;
+      }, 760);
+    };
+
+    const onScroll = () => {
+      if (isProgrammaticScroll) return;
+      if (snapTimeoutId) window.clearTimeout(snapTimeoutId);
+      snapTimeoutId = window.setTimeout(snapToNearest, 240);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (snapTimeoutId) window.clearTimeout(snapTimeoutId);
+      if (programmaticTimeoutId) window.clearTimeout(programmaticTimeoutId);
+    };
+  }, []);
+
+  return (
+    <main className="home-shell min-h-screen overflow-x-hidden bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent)] selection:text-[var(--bg)]">
+      <div ref={cursorRef} className="custom-crosshair" aria-hidden="true" />
+      <header className="fixed left-1/2 top-4 z-50 flex w-[min(1180px,calc(100%-1.5rem))] -translate-x-1/2 items-center justify-between rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_74%,transparent)] px-4 py-3 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:px-6">
+        <div className="flex min-w-0 items-center gap-5 lg:gap-10">
+          <a href="#hero" className="shrink-0 rounded-full border border-[var(--border2)] bg-[var(--accent-dim)] px-3 py-2 font-[var(--font-mono)] text-xs tracking-[0.12em] text-[var(--text)]">
+            Hizrawan Dwi Oka
+          </a>
+          <nav className="hidden gap-4 overflow-x-auto font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.1em] text-[var(--muted)] md:flex lg:gap-7">
+            {navItems.map(([label, href]) => (
+              <a key={href} href={href} className="transition hover:text-[var(--accent)]">
+                {label}
+              </a>
+            ))}
+          </nav>
+        </div>
+        <div className="flex items-center gap-4">
+          <a href="https://github.com/Hizrawan" target="_blank" rel="noreferrer" className="hidden font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] transition hover:text-[var(--accent)] sm:inline">
+            GitHub
+          </a>
+          <button
+            id="themeToggle"
+            type="button"
+            title="Toggle theme"
+            className="grid h-10 w-10 place-items-center rounded-full border border-[var(--border2)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-2"
+          >
+            <ThemeIcon />
+          </button>
+        </div>
+      </header>
+
+      <div id="hero-wrap" className="relative flex min-h-svh items-center overflow-hidden bg-[var(--bg)]">
+        <div className="absolute inset-[-20%] bg-[radial-gradient(circle_at_16%_20%,rgba(0,229,180,0.24),transparent_34%),radial-gradient(circle_at_88%_72%,rgba(212,168,67,0.18),transparent_38%),linear-gradient(135deg,transparent,rgba(255,255,255,0.035))]" />
+        <div className="absolute left-1/2 top-1/2 h-[38rem] w-[38rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] opacity-40" />
+        <section id="hero" className="relative z-10 mx-auto w-full max-w-6xl px-5 py-32 sm:px-8 lg:px-12">
+          <div className="max-w-4xl">
+            <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_78%,transparent)] px-4 py-2 font-[var(--font-mono)] text-xs uppercase tracking-[0.18em] text-[var(--accent)] shadow-[0_18px_50px_rgba(0,0,0,0.16)] backdrop-blur-xl">
+              <span className="h-2 w-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
+              Backend Engineer · PM Track
+            </div>
+            <h1 className="font-[var(--font-serif)] text-[clamp(3.4rem,9vw,8.6rem)] font-light leading-[0.92] tracking-[-0.055em]">
+              <strong className="bg-gradient-to-br from-[var(--text)] via-[var(--text)] to-[var(--accent)] bg-clip-text font-light text-transparent">
+                {typedName}
+              </strong>
+              <span className="typing-caret ml-2 inline-block h-[0.82em] w-[2px] translate-y-[0.08em] bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
+            </h1>
+            <p className="mt-7 max-w-3xl text-lg font-light leading-9 text-[var(--muted)] sm:text-xl">
+              A <span className="rounded-lg border border-[rgba(0,229,180,0.25)] bg-[var(--accent-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent)]">Backend Engineer</span> with 5+ years of experience,
+              transitioning into <span className="rounded-lg border border-[rgba(212,168,67,0.25)] bg-[var(--accent2-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent2)]">Project Management</span>.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a href="#projects" className="group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
+                View Work <span className="inline-block transition group-hover:translate-x-1">→</span>
+              </a>
+              <a href="#contact" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_58%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">
+                Contact Me
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <Section id="about" alt>
+        <SectionLabel index="01" label="About" />
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div className="about-breathing relative mx-auto aspect-square w-full max-w-sm rounded-[2rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg3)_78%,transparent)] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.26)] backdrop-blur-xl">
+            <div className="absolute -right-5 -top-5 h-28 w-28 rounded-full bg-[var(--accent-dim)] blur-xl" />
+            <div className="absolute -bottom-5 -left-5 h-32 w-32 rounded-full bg-[var(--accent2-dim)] blur-xl" />
+            <div className="relative grid h-full place-items-center rounded-[1.35rem] border border-[var(--border)] bg-[linear-gradient(135deg,var(--accent-dim),transparent)] font-[var(--font-serif)] text-8xl text-[var(--accent)] shadow-inner">
+              H
+            </div>
+          </div>
+          <div>
+            <h2 className="max-w-3xl font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-[1.02] tracking-[-0.03em]">
+              Engineer moving toward delivery leadership.
+            </h2>
+            <p className="mt-6 leading-8 text-[var(--muted)]">
+              I build backend systems and increasingly focus on planning, coordination, and turning technical work into reliable delivery outcomes.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {["5+ Years Experience", "TOEFL iBT 96", "CAPM In Progress"].map((item) => (
+                <div key={item} className="rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-5 font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] shadow-[0_16px_40px_rgba(0,0,0,0.12)] transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--text)]">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section id="experience">
+        <SectionLabel index="02" label="Experience" />
+        <div className="space-y-4">
+          {experiences.map((item) => (
+            <details key={item.title} className="group rounded-3xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:border-[var(--accent)]">
+              <summary className="grid cursor-pointer list-none gap-4 lg:grid-cols-[180px_1fr_auto] lg:items-center">
+                <span className="font-[var(--font-mono)] text-xs uppercase tracking-[0.16em] text-[var(--muted)]">{item.date}</span>
+                <span>
+                  <span className="block font-[var(--font-serif)] text-3xl transition group-hover:text-[var(--accent)]">{item.title}</span>
+                  <span className="mt-1 block text-[var(--accent)]">{item.company}</span>
+                  <span className="mt-3 block text-[var(--muted)]">{item.summary}</span>
+                </span>
+                <span className="inline-flex w-fit rounded-full border border-[var(--accent)] bg-[var(--accent-dim)] px-4 py-2 font-[var(--font-mono)] text-[0.65rem] uppercase tracking-[0.12em] text-[var(--accent)] shadow-[0_0_24px_rgba(0,229,180,0.18)] transition group-hover:shadow-[0_0_34px_rgba(0,229,180,0.34)] group-open:bg-[var(--accent)] group-open:text-[var(--bg)] group-open:shadow-[0_0_38px_rgba(0,229,180,0.34)]">
+                  <span className="group-open:hidden">More +</span>
+                  <span className="hidden group-open:inline">Close -</span>
+                </span>
+              </summary>
+              <p className="mt-5 max-w-3xl pl-0 leading-8 text-[var(--muted)] lg:pl-[180px]">{item.detail}</p>
+            </details>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="education" alt>
+        <SectionLabel index="03" label="Academic" />
+        <div className="grid gap-5 md:grid-cols-3">
+          {education.map((item, index) => (
+            <a
+              key={item.title}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="about-breathing rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]"
+              style={{ animationDelay: `${index * 0.35}s` }}
+            >
+              <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{item.meta}</p>
+              <h3 className="mt-3 font-[var(--font-serif)] text-2xl">{item.title}</h3>
+              <p className="mt-4 text-[var(--muted)]">{item.text}</p>
+              <p className="mt-5 font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.12em] text-[var(--accent)]">
+                Visit Website →
+              </p>
+            </a>
+          ))}
+        </div>
+      </Section>
+
+      <Section id="skills">
+        <SectionLabel index="04" label="Skills" />
+        <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Technical Expertise</h2>
+        <div className="mt-8 grid overflow-hidden rounded-[1.75rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_72%,transparent)] shadow-[0_22px_80px_rgba(0,0,0,0.16)] backdrop-blur-xl lg:grid-cols-[260px_1fr]">
+          <div className="border-b border-[var(--border)] bg-[var(--bg2)]/60 p-3 lg:border-b-0 lg:border-r">
+            {skillNames.map((name) => (
+              <button
+                key={name}
+                type="button"
+                onClick={() => setActiveSkill(name)}
+                className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] transition ${
+                  activeSkill === name
+                    ? "bg-[var(--accent)] text-[var(--bg)] shadow-[0_14px_34px_rgba(0,229,180,0.18)]"
+                    : "text-[var(--muted)] hover:bg-[var(--accent-dim)] hover:text-[var(--text)]"
+                }`}
+              >
+                {name}
+                <span className="opacity-70">→</span>
+              </button>
+            ))}
+          </div>
+          <div className="min-h-[260px] p-6">
+            <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.16em] text-[var(--accent)]">
+              {activeSkill}
+            </p>
+            <p className="mt-3 max-w-xl text-[var(--muted)]">
+              Focus area and tools currently used across engineering, delivery, and communication work.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {skills[activeSkill].map((skill) => (
+                <span key={skill} className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_76%,transparent)] px-4 py-2 text-sm text-[var(--text)] shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section id="projects" alt>
+        <SectionLabel index="05" label="Projects" />
+        <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Personal Projects</h2>
+        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          {projects.slice(0, 3).map((project) => (
+            <Link key={project.slug} href={`/projects/${project.slug}`} className="group relative overflow-hidden rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
+              <span className="absolute right-0 top-0 h-28 w-28 translate-x-8 -translate-y-8 rounded-full bg-[var(--accent-dim)] blur-2xl transition group-hover:scale-150" />
+              <div className="project-card-cover relative mb-5 flex aspect-[16/10] items-end overflow-hidden rounded-2xl border border-[var(--border)] p-4">
+                <span className="relative z-10 font-[var(--font-mono)] text-[0.62rem] uppercase tracking-[0.18em] text-[var(--accent)]">
+                  Personal Project
+                </span>
+              </div>
+              <div className="flex items-start justify-between gap-4 px-2">
+                <h3 className="relative font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{project.title}</h3>
+                <span className="font-[var(--font-mono)] text-xs text-[var(--accent)]">{project.year}</span>
+              </div>
+              <p className="relative mt-4 px-2 text-[var(--muted)]">{project.summary}</p>
+              <div className="mt-5 flex flex-wrap gap-2 px-2 pb-2">
+                {project.tags.map((tag) => (
+                  <span key={tag} className="rounded-full bg-[var(--accent-dim)] px-3 py-1 text-xs text-[var(--accent)]">{tag}</span>
+                ))}
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link href="/projects" className="inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
+            Show All Projects
+          </Link>
+        </div>
+      </Section>
+
+      <Section id="writing">
+        <SectionLabel index="06" label="Writing" />
+        <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Stories & Thoughts</h2>
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {stories.map((story) => (
+            <Link key={story.slug} href={`/stories/${story.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">
+              <div className="story-card-cover mb-5 flex aspect-[16/10] items-center justify-center rounded-2xl border border-[var(--border)]">
+                <span className="font-[var(--font-serif)] text-5xl text-[var(--accent)]">{getStoryKind(story.type)}</span>
+              </div>
+              <div className="px-2 pb-2">
+              <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{story.type}</p>
+              <h3 className="mt-3 font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{story.title}</h3>
+              <p className="mt-4 text-[var(--muted)]">{story.excerpt}</p>
+              <div className="mt-5 flex justify-between font-[var(--font-mono)] text-xs uppercase tracking-[0.1em] text-[var(--muted)]">
+                <span>{story.status}</span>
+                <span>{story.readTime}</span>
+              </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link href="/stories" className="inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
+            Show All Stories
+          </Link>
+        </div>
+      </Section>
+
+      <Section id="contact" alt>
+        <SectionLabel index="07" label="Contact" />
+        <div className="max-w-3xl">
+          <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Let&apos;s build the next thing.</h2>
+          <p className="mt-6 text-lg leading-8 text-[var(--muted)]">
+            Reach out for backend engineering work, project collaboration, or writing conversations.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <a href="mailto:hizrawan@example.com" className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">Email Me</a>
+            <a href="https://github.com/Hizrawan" target="_blank" rel="noreferrer" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">GitHub</a>
+          </div>
+        </div>
+      </Section>
+
+      <footer className="border-t border-[var(--border)] bg-[var(--bg)] px-5 py-8 text-center font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
+        Built with Next.js + Tailwind CSS
+      </footer>
+    </main>
+  );
+}

@@ -1,0 +1,107 @@
+import fs from "node:fs";
+import path from "node:path";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import ContentNav from "../../../components/content-nav";
+import { stories, storyBySlug } from "../../../lib/content";
+
+type StoryDetailPageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateStaticParams() {
+  return stories.map((story) => ({ slug: story.slug }));
+}
+
+export async function generateMetadata({ params }: StoryDetailPageProps) {
+  const { slug } = await params;
+  const story = storyBySlug.get(slug);
+
+  if (!story) {
+    return {
+      title: "Story Not Found",
+    };
+  }
+
+  return {
+    title: `${story.title} — Story Detail`,
+    description: story.excerpt,
+  };
+}
+
+export default async function StoryDetailPage({ params }: StoryDetailPageProps) {
+  const { slug } = await params;
+  const story = storyBySlug.get(slug);
+
+  if (!story) {
+    notFound();
+  }
+
+  const pdfPath = path.join(process.cwd(), "public", story.pdfFile.replace(/^\//, ""));
+  const hasPdf = fs.existsSync(pdfPath);
+
+  return (
+    <main className="content-page">
+      <ContentNav />
+
+      <section className="content-wrapper story-reader-wrapper">
+        <div className="story-reader-actions">
+          <Link href="/stories" className="content-back-link">
+            ← Back to All Stories
+          </Link>
+          <Link href="/" className="content-back-link">
+            ← Back to Home
+          </Link>
+        </div>
+
+        <article className="story-reader" aria-label={`${story.title} reader`}>
+          <header className="story-reader-topbar">
+            <div>
+              <span className="story-reader-label">Reader Mode</span>
+              <p>
+                {story.type} · {story.readTime}
+              </p>
+            </div>
+            <div className="story-reader-tools" aria-label="Reader display controls">
+              <a href={story.pdfFile} target="_blank" rel="noreferrer">
+                Open PDF
+              </a>
+              <a href={story.pdfFile} download>
+                Download
+              </a>
+            </div>
+          </header>
+
+          <div className="story-book">
+            <div className="story-pdf-page">
+              <div className="story-page-meta">
+                <span>{story.status}</span>
+                <span>{hasPdf ? "PDF Ready" : "PDF Missing"}</span>
+              </div>
+
+              <p className="content-kicker">{story.type}</p>
+              <h1 className="content-title story-title">{story.title}</h1>
+              <p className="content-subtitle story-lead">{story.excerpt}</p>
+
+              {hasPdf ? (
+                <iframe
+                  className="story-pdf-frame"
+                  src={`${story.pdfFile}#toolbar=1&navpanes=0&view=FitH`}
+                  title={`${story.title} PDF reader`}
+                />
+              ) : (
+                <div className="story-pdf-placeholder">
+                  <p>PDF untuk story ini belum tersedia.</p>
+                  <p>
+                    Simpan file PDF di <code>public{story.pdfFile}</code>, lalu halaman
+                    ini otomatis menjadi reader untuk file tersebut.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  );
+}

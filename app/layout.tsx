@@ -1,0 +1,45 @@
+import type { Metadata } from "next";
+import { Outfit, Cormorant_Garamond, DM_Mono } from "next/font/google";
+import VisitProvider from "../components/visit-provider";
+import "./globals.css";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+});
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
+  variable: "--font-dm-mono",
+});
+
+export const metadata: Metadata = {
+  title: "Hizrawan — Backend Engineer",
+  description: "Portfolio website built with Next.js",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${outfit.variable} ${cormorant.variable} ${dmMono.variable}`}
+    >
+      <body>
+        <VisitProvider>{children}</VisitProvider>
+      </body>
+    </html>
+  );
+}
