@@ -3,19 +3,19 @@ import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ContentNav from "../../../components/content-nav";
-import { getAllCertificates, getCertificateBySlug } from "../../../lib/certificates-server";
+import { certificateBySlug, certificates } from "../../../lib/content";
 
 type CertificateDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
-  return getAllCertificates().map((certificate) => ({ slug: certificate.slug }));
+  return certificates.map((certificate) => ({ slug: certificate.slug }));
 }
 
 export async function generateMetadata({ params }: CertificateDetailPageProps) {
   const { slug } = await params;
-  const certificate = getCertificateBySlug(slug);
+  const certificate = certificateBySlug.get(slug);
 
   if (!certificate) {
     return {
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: CertificateDetailPageProps) {
 
 export default async function CertificateDetailPage({ params }: CertificateDetailPageProps) {
   const { slug } = await params;
-  const certificate = getCertificateBySlug(slug);
+  const certificate = certificateBySlug.get(slug);
 
   if (!certificate) {
     notFound();

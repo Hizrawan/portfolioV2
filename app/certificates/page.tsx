@@ -1,21 +1,13 @@
-import fs from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import ContentNav from "../../components/content-nav";
-import { getAllCertificates } from "../../lib/certificates-server";
+import { certificates } from "../../lib/content";
 
 export const metadata = {
   title: "Hizrawan's Portfolio",
   description: "List of certificates, credentials, and language proficiency records.",
 };
 
-function publicFileExists(filePath: string) {
-  return fs.existsSync(path.join(process.cwd(), "public", filePath.replace(/^\//, "")));
-}
-
 export default function CertificatesPage() {
-  const certificates = getAllCertificates();
-
   return (
     <main className="content-page">
       <ContentNav />
@@ -41,9 +33,7 @@ export default function CertificatesPage() {
             <article key={certificate.slug} className="content-card">
               <div className="certificate-card-cover content-card-cover">
                 <span>{certificate.score ?? certificate.year}</span>
-                {publicFileExists(certificate.imageFile) ? (
-                  <img src={certificate.imageFile} alt={`${certificate.title} certificate`} />
-                ) : null}
+                <img src={certificate.imageFile} alt={`${certificate.title} certificate`} />
               </div>
 
               <div className="content-card-meta">

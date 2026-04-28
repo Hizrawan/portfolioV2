@@ -1,6 +1,6 @@
 import PortfolioClient from "./portfolio-client";
-import { getAllCertificates } from "../lib/certificates-server";
+import { certificates } from "../lib/content";
 
 export default function Home() {
-  return <PortfolioClient certificates={getAllCertificates()} />;
+  return <PortfolioClient certificates={certificates} />;
 }
