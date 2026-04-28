@@ -5,6 +5,7 @@ export type Project = {
   tags: string[];
   year: string;
   role: string;
+  featuredOnHome?: boolean;
   externalUrl?: string;
   details: string[];
 };
@@ -17,6 +18,7 @@ export type Story = {
   readTime: string;
   excerpt: string;
   pdfFile: string;
+  featuredOnHome?: boolean;
   details: string[];
 };
 
@@ -29,6 +31,7 @@ export type Certificate = {
   score?: string;
   imageFile: string;
   pdfFile: string;
+  featuredOnHome?: boolean;
   summary: string;
   details: string[];
   externalUrl?: string;
@@ -43,6 +46,7 @@ export const projects: Project[] = [
     tags: ["Next.js", "React", "Tailwind"],
     year: "2025",
     role: "Personal Project",
+    featuredOnHome: true,
     externalUrl: "https://github.com/Hizrawan",
     details: [
       "This project was created to build a single place for professional identity, combining technical background, current focus, and writing plans.",
@@ -58,6 +62,7 @@ export const projects: Project[] = [
     tags: ["Go", "PostgreSQL", "REST API"],
     year: "2024",
     role: "Backend Engineer",
+    featuredOnHome: true,
     details: [
       "Designed backend endpoints and worker pipelines for telecom-grade reliability, with careful handling of high-frequency events.",
       "Focused on query performance, failure recovery, and observability to ensure predictable behavior under production load.",
@@ -72,6 +77,7 @@ export const projects: Project[] = [
     tags: ["C# .NET Core", "Blazor", "MS SQL Server"],
     year: "2024",
     role: "Backend Developer",
+    featuredOnHome: false,
     details: [
       "Delivered backend modules that support enterprise operations with transactional integrity and clear validation rules.",
       "Collaborated on full feature lifecycle from requirements clarification to release-ready implementation.",
@@ -86,6 +92,7 @@ export const projects: Project[] = [
     tags: ["React Native", "JavaScript", "REST API"],
     year: "2018",
     role: "Programmer Intern",
+    featuredOnHome: false,
     details: [
       "Contributed to mobile UI development, interaction flows, and integration with backend endpoints.",
       "Worked in a mentorship environment with iterative testing and bug-fix cycles to strengthen delivery quality.",
@@ -102,6 +109,7 @@ export const stories: Story[] = [
     status: "Coming soon",
     readTime: "5 min read",
     pdfFile: "/stories/from-code-to-kickoff-why-engineers-make-great-pms.pdf",
+    featuredOnHome: true,
     excerpt:
       "What five years of backend engineering taught me about timelines, team dynamics, and why the best project managers often started with code.",
     details: [
@@ -117,6 +125,7 @@ export const stories: Story[] = [
     status: "Coming soon",
     readTime: "7 min read",
     pdfFile: "/stories/studying-for-capm-while-working-full-time-in-taiwan.pdf",
+    featuredOnHome: true,
     excerpt:
       "A candid look at balancing a backend engineering job with CAPM exam prep — what works, what does not, and how consistency is maintained.",
     details: [
@@ -132,6 +141,7 @@ export const stories: Story[] = [
     status: "Segera hadir",
     readTime: "Fiksi · ID",
     pdfFile: "/stories/sinyal-di-antara-kabut.pdf",
+    featuredOnHome: true,
     excerpt:
       "Sebuah cerita pendek tentang perjalanan, keputusan, dan hal-hal yang ditinggalkan di belakang saat memilih jalan baru.",
     details: [
@@ -147,6 +157,7 @@ export const stories: Story[] = [
     status: "In progress",
     readTime: "Fiction",
     pdfFile: "/stories/untitled-novel.pdf",
+    featuredOnHome: false,
     excerpt: "A longer-form work currently in progress. More details coming soon.",
     details: [
       "This is an early-stage long-form fiction project currently in drafting and world-building phase.",
@@ -165,6 +176,7 @@ export const certificates: Certificate[] = [
     status: "Completed",
     imageFile: "/certificates/Google Project Management Specialization.jpg",
     pdfFile: "/certificates/google-project-management-specialization.pdf",
+    featuredOnHome: true,
     summary:
       "Comprehensive project management certification covering foundational concepts, methodologies, and practical applications for effective project leadership.",
     details: [
@@ -182,6 +194,7 @@ export const certificates: Certificate[] = [
     status: "Completed",
     imageFile: "/certificates/Architecting on AWS (Building Cloud Architecture on AWS).jpg",
     pdfFile: "/certificates/Architecting on AWS (Building Cloud Architecture on AWS).pdf",
+    featuredOnHome: true,
     summary:
       "Cloud architecture certification focused on designing scalable, secure, and cost-effective solutions using AWS services.",
     details: [

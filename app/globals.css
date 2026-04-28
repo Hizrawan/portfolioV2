@@ -190,6 +190,57 @@ body.custom-cursor-ready .home-shell * {
   transform-origin: center;
 }
 
+.profile-portrait {
+  object-position: center center;
+}
+
+.section-nav-controls {
+  position: absolute;
+  right: clamp(1rem, 3vw, 2.25rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 20;
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.45rem;
+  border: 1px solid var(--border2);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 76%, transparent);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(18px);
+}
+
+.section-nav-controls a,
+.section-nav-controls span {
+  display: grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.section-nav-controls a:hover {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 26px rgba(0, 229, 180, 0.2);
+  transform: translateY(-1px);
+}
+
+.section-nav-controls span {
+  opacity: 0.28;
+}
+
 .project-card-cover,
 .story-card-cover,
 .certificate-card-cover {

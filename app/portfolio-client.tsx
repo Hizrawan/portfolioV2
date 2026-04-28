@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { certificates, projects, stories } from "../lib/content";
+import { type Certificate, projects, stories } from "../lib/content";
 
 const navItems = [
   ["About", "#about"],
@@ -14,6 +14,8 @@ const navItems = [
   ["Stories", "#writing"],
   ["Contact", "#contact"],
 ] as const;
+
+const sectionOrder = ["hero", ...navItems.map(([, href]) => href.slice(1))] as const;
 
 const experiences = [
   {
@@ -156,6 +158,31 @@ function GitHubIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
+function SectionNavControls({ currentId }: { currentId: string }) {
+  const index = sectionOrder.indexOf(currentId as (typeof sectionOrder)[number]);
+  const previousId = index > 0 ? sectionOrder[index - 1] : undefined;
+  const nextId = index >= 0 && index < sectionOrder.length - 1 ? sectionOrder[index + 1] : undefined;
+
+  return (
+    <div className="section-nav-controls" aria-label="Section navigation">
+      {previousId ? (
+        <a href={`#${previousId}`} aria-label="Go to previous section">
+          ↑
+        </a>
+      ) : (
+        <span aria-hidden="true">↑</span>
+      )}
+      {nextId ? (
+        <a href={`#${nextId}`} aria-label="Go to next section">
+          ↓
+        </a>
+      ) : (
+        <span aria-hidden="true">↓</span>
+      )}
+    </div>
+  );
+}
+
 function SectionLabel({ index, label }: { index: string; label: string }) {
   return (
     <p className="mb-8 flex items-center gap-4 font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.24em] text-[var(--accent)]">
@@ -186,16 +213,24 @@ function Section({
       <div className="relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-12">
         {children}
       </div>
+      <SectionNavControls currentId={id} />
     </section>
   );
 }
 
-export default function PortfolioClient() {
+export default function PortfolioClient({
+  certificates,
+}: {
+  certificates: Certificate[];
+}) {
   const [activeSkill, setActiveSkill] = useState<keyof typeof skills>("Project Management");
   const [activeSection, setActiveSection] = useState("about");
   const [typedName, setTypedName] = useState("\u00a0");
   const cursorRef = useRef<HTMLDivElement>(null);
   const skillNames = useMemo(() => Object.keys(skills) as Array<keyof typeof skills>, []);
+  const homeProjects = projects.filter((project) => project.featuredOnHome);
+  const homeStories = stories.filter((story) => story.featuredOnHome);
+  const homeCertificates = certificates.filter((certificate) => certificate.featuredOnHome);
 
   useEffect(() => {
     const sections = navItems
@@ -276,63 +311,6 @@ export default function PortfolioClient() {
     return () => {
       cancelled = true;
       if (timeoutId) window.clearTimeout(timeoutId);
-    };
-  }, []);
-
-  useEffect(() => {
-    const snapTargets = Array.from(
-      document.querySelectorAll<HTMLElement>("#hero-wrap, .home-snap-section, footer"),
-    );
-    let snapTimeoutId: number | undefined;
-    let programmaticTimeoutId: number | undefined;
-    let isProgrammaticScroll = false;
-
-    const snapToNearest = () => {
-      if (isProgrammaticScroll || window.location.pathname !== "/") return;
-      const viewportCenter = window.scrollY + window.innerHeight / 2;
-      const nearest = snapTargets.reduce((closest, current) => {
-        const closestCenter = closest.offsetTop + closest.offsetHeight / 2;
-        const currentCenter = current.offsetTop + current.offsetHeight / 2;
-        return Math.abs(currentCenter - viewportCenter) < Math.abs(closestCenter - viewportCenter)
-          ? current
-          : closest;
-      });
-
-      const viewportHeight = window.innerHeight;
-      const isTallerThanViewport = nearest.offsetHeight > viewportHeight + 24;
-      if (isTallerThanViewport) {
-        const sectionTop = nearest.offsetTop;
-        const sectionBottom = sectionTop + nearest.offsetHeight;
-        const viewportTop = window.scrollY;
-        const viewportBottom = viewportTop + viewportHeight;
-        const isInsideScrollableSection =
-          viewportTop > sectionTop + 24 && viewportBottom < sectionBottom - 24;
-
-        if (isInsideScrollableSection) return;
-      }
-
-      if (Math.abs(window.scrollY - nearest.offsetTop) < 6) return;
-      isProgrammaticScroll = true;
-      window.scrollTo({
-        top: nearest.offsetTop,
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-      });
-      programmaticTimeoutId = window.setTimeout(() => {
-        isProgrammaticScroll = false;
-      }, 760);
-    };
-
-    const onScroll = () => {
-      if (isProgrammaticScroll) return;
-      if (snapTimeoutId) window.clearTimeout(snapTimeoutId);
-      snapTimeoutId = window.setTimeout(snapToNearest, 240);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (snapTimeoutId) window.clearTimeout(snapTimeoutId);
-      if (programmaticTimeoutId) window.clearTimeout(programmaticTimeoutId);
     };
   }, []);
 
@@ -436,6 +414,7 @@ export default function PortfolioClient() {
             </div>
           </div>
         </section>
+        <SectionNavControls currentId="hero" />
       </div>
 
       <Section id="about" alt>
@@ -452,7 +431,7 @@ export default function PortfolioClient() {
               <img
                 src="/hizrawan-profile.jpg"
                 alt="Hizrawan Dwi Oka portrait"
-                className="relative z-10 h-full w-full rounded-[1.15rem] object-cover"
+                className="profile-portrait relative z-10 h-full w-full rounded-[1.15rem] object-cover object-center"
                 onError={(event) => {
                   event.currentTarget.style.opacity = "0";
                 }}
@@ -547,7 +526,7 @@ export default function PortfolioClient() {
           </Link>
         </div>
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {certificates.slice(0, 4).map((certificate) => (
+          {homeCertificates.map((certificate) => (
             <Link key={certificate.slug} href={`/certificates/${certificate.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
               <div className="certificate-card-cover relative mb-5 flex aspect-[16/9] items-center justify-center overflow-hidden rounded-2xl border border-[var(--border)]">
                 <span className="font-[var(--font-serif)] text-4xl text-[var(--accent)]">{certificate.score ?? certificate.year}</span>
@@ -611,7 +590,7 @@ export default function PortfolioClient() {
         <SectionLabel index="06" label="Projects" />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Personal Projects</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {projects.slice(0, 2).map((project) => (
+          {homeProjects.map((project) => (
             <Link key={project.slug} href={`/projects/${project.slug}`} className="group relative overflow-hidden rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
               <span className="absolute right-0 top-0 h-28 w-28 translate-x-8 -translate-y-8 rounded-full bg-[var(--accent-dim)] blur-2xl transition group-hover:scale-150" />
               <div className="project-card-cover relative mb-5 flex aspect-[16/10] items-end overflow-hidden rounded-2xl border border-[var(--border)] p-4">
@@ -646,7 +625,7 @@ export default function PortfolioClient() {
           In my spare time, I like to write. This section collects stories, blog notes, and personal writing pieces I have created outside of engineering work.
         </p>
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {stories.slice(0, 3).map((story) => (
+          {homeStories.map((story) => (
             <Link key={story.slug} href={`/stories/${story.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">
               <div className="story-card-cover mb-5 flex aspect-[16/10] items-center justify-center rounded-2xl border border-[var(--border)]">
                 <span className="font-[var(--font-serif)] text-5xl text-[var(--accent)]">{getStoryKind(story.type)}</span>
@@ -680,6 +659,7 @@ export default function PortfolioClient() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a href="mailto:hizrawandwioka@gmail.com" className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">Email Me</a>
             <a href="https://github.com/Hizrawan" target="_blank" rel="noreferrer" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">GitHub</a>
+            <a href="https://www.linkedin.com/in/hizrawan/" target="_blank" rel="noreferrer" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">LinkedIn</a>
           </div>
         </div>
       </Section>
