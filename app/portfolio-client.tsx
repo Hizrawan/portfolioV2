@@ -444,7 +444,7 @@ export default function PortfolioClient({
               <span className="typing-caret ml-2 inline-block h-[0.82em] w-[2px] translate-y-[0.08em] bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
             </h1>
             <p className="mt-7 max-w-3xl text-lg font-light leading-9 text-[var(--muted)] sm:text-xl">
-              An <span className="rounded-lg border border-[rgba(0,229,180,0.25)] bg-[var(--accent-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent)]">Associate Project Manager</span> with 5+ years of experience as a
+              An <span className="rounded-lg border border-[rgba(0,229,180,0.25)] bg-[var(--accent-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent)]">Associate Project Manager</span> with 5+ years of experience as a 
               <span className="rounded-lg border border-[rgba(212,168,67,0.25)] bg-[var(--accent2-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent2)]">Software Engineer</span>.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">

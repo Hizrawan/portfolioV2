@@ -209,7 +209,7 @@ export const stories: Story[] = [
     status: "Completed",
     readTime: "14 min read",
     detailType: "blog",
-    imageFile: "/stories/raspberry-pi-cover.svg",
+    imageFile: "/stories/blog1.jpeg",
     pdfFile: "/stories/blog1.pdf",
     featuredOnHome: true,
     excerpt:
