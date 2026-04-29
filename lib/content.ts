@@ -25,6 +25,7 @@ export type Story = {
   readTime: string;
   excerpt: string;
   detailType: "blog" | "novel";
+  imageFile?: string;
   pdfFile?: string;
   featuredOnHome?: boolean;
   details: string[];
@@ -172,6 +173,7 @@ export const stories: Story[] = [
     status: "Completed",
     readTime: "28 chapters",
     detailType: "novel",
+    imageFile: "/stories/dalang.png",
     pdfFile: "/stories/dalang.pdf",
     featuredOnHome: true,
     excerpt:
@@ -189,6 +191,7 @@ export const stories: Story[] = [
     status: "In progress",
     readTime: "28 chapters",
     detailType: "novel",
+    imageFile: "/stories/wayang.png",
     pdfFile: "/stories/wayang.pdf",
     featuredOnHome: true,
     excerpt:
@@ -206,6 +209,7 @@ export const stories: Story[] = [
     status: "Completed",
     readTime: "14 min read",
     detailType: "blog",
+    imageFile: "/stories/raspberry-pi-cover.svg",
     pdfFile: "/stories/blog1.pdf",
     featuredOnHome: true,
     excerpt:
@@ -264,6 +268,7 @@ export const stories: Story[] = [
     status: "Coming soon",
     readTime: "28 chapters",
     detailType: "novel",
+    imageFile: "/stories/bayang.png",
     pdfFile: "/stories/bayang.pdf",
     featuredOnHome: false,
     excerpt:

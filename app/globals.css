@@ -150,8 +150,48 @@ body.light {
   filter: drop-shadow(0 0 28px rgba(0, 229, 180, 0.12));
 }
 
+.typing-headline {
+  max-width: 100%;
+  overflow: visible;
+  white-space: nowrap;
+  font-size: clamp(2.5rem, 8vw, 8.6rem) !important;
+}
+
 #hero p span {
   box-shadow: inset 0 0 18px rgba(0, 229, 180, 0.04);
+}
+
+.download-toast {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: calc(1.15rem + env(safe-area-inset-bottom));
+  z-index: 120;
+  max-width: min(22rem, calc(100vw - 2rem));
+  border: 1px solid rgba(0, 229, 180, 0.42);
+  border-radius: 999px;
+  padding: 0.85rem 1rem;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  box-shadow:
+    inset 0 0 20px rgba(0, 229, 180, 0.08),
+    0 18px 54px rgba(0, 0, 0, 0.28),
+    0 0 28px rgba(0, 229, 180, 0.2);
+  backdrop-filter: blur(20px);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  pointer-events: none;
+  text-transform: uppercase;
+  transform: translateY(0.8rem) scale(0.98);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.download-toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .hero-role-badge {
@@ -591,7 +631,6 @@ body.custom-cursor-ready .home-shell * {
 }
 
 .project-card-cover::after,
-.story-card-cover::after,
 .certificate-card-cover::after {
   content: "";
   position: absolute;
@@ -609,6 +648,62 @@ body.custom-cursor-ready .home-shell * {
   background:
     radial-gradient(circle at 50% 20%, rgba(0, 229, 180, 0.16), transparent 34%),
     linear-gradient(135deg, rgba(212, 168, 67, 0.16), rgba(255, 255, 255, 0.02));
+}
+
+.story-portrait-cover {
+  aspect-ratio: 650 / 867;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.55rem;
+  background:
+    radial-gradient(circle at 50% 16%, rgba(0, 229, 180, 0.14), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.018)),
+    #090b12;
+}
+
+.story-card-cover img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0.45rem;
+  object-fit: contain;
+  object-position: center;
+  opacity: 0.96;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.story-card-cover::before {
+  z-index: 2;
+}
+
+.story-card-cover span {
+  position: relative;
+  z-index: 3;
+  border: 1px solid color-mix(in srgb, currentColor 36%, transparent);
+  border-radius: 999px;
+  padding: 0.26rem 0.62rem;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, currentColor 18%, transparent);
+  backdrop-filter: blur(16px);
+  font-size: clamp(0.72rem, 2vw, 0.95rem) !important;
+}
+
+.story-kind-blog {
+  color: var(--accent) !important;
+}
+
+.story-kind-novel {
+  color: var(--accent2) !important;
+}
+
+.home-card:hover .story-card-cover img,
+.content-card:hover .story-card-cover img {
+  opacity: 1;
+  transform: scale(1.015);
 }
 
 .certificate-card-cover {
@@ -1100,8 +1195,17 @@ body.custom-cursor-ready .home-shell * {
 
 .story-card-cover.content-card-cover,
 .certificate-card-cover.content-card-cover {
-  align-items: center;
   justify-content: center;
+}
+
+.story-card-cover.content-card-cover {
+  align-items: flex-end;
+  margin-inline: auto;
+  width: min(100%, 18rem);
+}
+
+.certificate-card-cover.content-card-cover {
+  align-items: center;
 }
 
 .story-card-cover.content-card-cover span,

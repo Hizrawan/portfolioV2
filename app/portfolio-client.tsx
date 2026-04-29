@@ -147,6 +147,10 @@ function getStoryKind(type: string) {
   return "Blog";
 }
 
+function getStoryKindClass(type: string) {
+  return getStoryKind(type) === "Blog" ? "story-kind-blog" : "story-kind-novel";
+}
+
 function ThemeIcon() {
   return (
     <svg id="themeIcon" viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4">
@@ -296,7 +300,9 @@ export default function PortfolioClient({
   const [activeSection, setActiveSection] = useState("about");
   const [openExperienceKey, setOpenExperienceKey] = useState<string | null>(null);
   const [typedName, setTypedName] = useState("\u00a0");
+  const [showDownloadToast, setShowDownloadToast] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
+  const downloadToastTimeoutRef = useRef<number | undefined>(undefined);
   const skillNames = useMemo(() => Object.keys(skills) as Array<keyof typeof skills>, []);
   const homeProjects = projects.filter((project) => project.featuredOnHome);
   const homeStories = stories.filter((story) => story.featuredOnHome);
@@ -395,11 +401,32 @@ export default function PortfolioClient({
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (downloadToastTimeoutRef.current) {
+        window.clearTimeout(downloadToastTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const showCvDownloadToast = () => {
+    setShowDownloadToast(true);
+    if (downloadToastTimeoutRef.current) {
+      window.clearTimeout(downloadToastTimeoutRef.current);
+    }
+    downloadToastTimeoutRef.current = window.setTimeout(() => {
+      setShowDownloadToast(false);
+    }, 2600);
+  };
+
   return (
     <main className="home-shell min-h-screen overflow-x-hidden bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent)] selection:text-[var(--bg)]">
       <div ref={cursorRef} className="custom-crosshair" aria-hidden="true" />
       <SectionNavControls currentId={activeSection} />
       <SiteHeader activeSection={activeSection} />
+      <div className={`download-toast ${showDownloadToast ? "show" : ""}`} role="status" aria-live="polite">
+        CV download berhasil dimulai.
+      </div>
 
       <div id="hero" className="relative flex min-h-svh items-center overflow-hidden bg-[var(--bg)]">
         <div className="absolute inset-[-20%] bg-[radial-gradient(circle_at_16%_20%,rgba(0,229,180,0.24),transparent_34%),radial-gradient(circle_at_88%_72%,rgba(212,168,67,0.18),transparent_38%),linear-gradient(135deg,transparent,rgba(255,255,255,0.035))]" />
@@ -410,7 +437,7 @@ export default function PortfolioClient({
               <span className="h-2 w-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
               Associate Project Manager | Software Engineer
             </div>
-            <h1 className="font-[var(--font-serif)] text-[clamp(3.4rem,9vw,8.6rem)] font-light leading-[0.92] tracking-[-0.055em]">
+            <h1 className="typing-headline font-[var(--font-serif)] text-[clamp(3.4rem,9vw,8.6rem)] font-light leading-[0.92] tracking-[-0.055em]">
               <strong className="bg-gradient-to-br from-[var(--text)] via-[var(--text)] to-[var(--accent)] bg-clip-text font-light text-transparent">
                 {typedName}
               </strong>
@@ -421,7 +448,7 @@ export default function PortfolioClient({
               <span className="rounded-lg border border-[rgba(212,168,67,0.25)] bg-[var(--accent2-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent2)]">Software Engineer</span>.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <a href="/cv/20260223_CV_hizrawan_PM.pdf" download className="primary-action group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
+              <a href="/cv/20260223_CV_hizrawan_PM.pdf" download onClick={showCvDownloadToast} className="primary-action group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
                 {t("home.downloadCv")} <span className="inline-block transition group-hover:translate-y-0.5">↓</span>
               </a>
               <a href="#contact" className="secondary-action rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_58%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">
@@ -650,14 +677,23 @@ export default function PortfolioClient({
         <p className="mt-5 max-w-2xl leading-8 text-[var(--muted)]">
           In my spare time, I like to write. This section collects stories, blog notes, and personal writing pieces I have created outside of engineering work.
         </p>
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {homeStories.map((story) => (
             <Link key={story.slug} href={`/stories/${story.slug}`} className="home-card group flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">
-              <div className="story-card-cover mb-5 flex aspect-[16/10] items-center justify-center rounded-2xl border border-[var(--border)]">
-                <span className="font-[var(--font-serif)] text-5xl text-[var(--accent)]">{getStoryKind(story.type)}</span>
+              <div className="story-card-cover story-portrait-cover mx-auto mb-5 flex w-full max-w-[19rem] items-center justify-center rounded-2xl border border-[var(--border)]">
+                {story.imageFile ? (
+                  <img
+                    src={story.imageFile}
+                    alt={`${story.title} cover`}
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
+                    }}
+                  />
+                ) : null}
+                <span className={`font-[var(--font-serif)] text-5xl ${getStoryKindClass(story.type)}`}>{getStoryKind(story.type)}</span>
               </div>
               <div className="flex flex-1 flex-col px-2 pb-2">
-              <p className="min-h-6 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{story.type}</p>
+              <p className={`min-h-6 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] ${getStoryKindClass(story.type)}`}>{story.type}</p>
               <h3 className="mt-3 min-h-16 font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{story.title}</h3>
               <p className="mt-4 min-h-40 flex-1 text-[var(--muted)]">{story.excerpt}</p>
               <div className="mt-auto flex justify-between gap-4 pt-5 font-[var(--font-mono)] text-xs uppercase tracking-[0.1em] text-[var(--muted)]">
