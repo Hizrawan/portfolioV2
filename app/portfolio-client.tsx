@@ -174,22 +174,75 @@ function GitHubIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
+function getSectionIdFromViewport(fallbackId: string) {
+  if (typeof window === "undefined") return fallbackId;
+
+  const focusY = Math.min(window.innerHeight * 0.42, 420);
+  const sections = sectionOrder
+    .map((id) => document.getElementById(id))
+    .filter((section): section is HTMLElement => Boolean(section));
+
+  const currentSection = sections.find((section) => {
+    const rect = section.getBoundingClientRect();
+    return rect.top <= focusY && rect.bottom > focusY;
+  });
+
+  if (currentSection?.id) return currentSection.id;
+
+  const nearestSection = sections
+    .map((section) => ({
+      id: section.id,
+      distance: Math.abs(section.getBoundingClientRect().top - focusY),
+    }))
+    .sort((a, b) => a.distance - b.distance)[0];
+
+  return nearestSection?.id ?? fallbackId;
+}
+
 function SectionNavControls({ currentId }: { currentId: string }) {
   const index = sectionOrder.indexOf(currentId as (typeof sectionOrder)[number]);
   const previousId = index > 0 ? sectionOrder[index - 1] : undefined;
   const nextId = index >= 0 && index < sectionOrder.length - 1 ? sectionOrder[index + 1] : undefined;
+  const scrollWithinCurrentSection = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    direction: "up" | "down",
+  ) => {
+    event.preventDefault();
+
+    const resolvedId = getSectionIdFromViewport(currentId);
+    const resolvedIndex = sectionOrder.indexOf(resolvedId as (typeof sectionOrder)[number]);
+
+    const targetId =
+      direction === "down"
+        ? sectionOrder[resolvedIndex + 1]
+        : sectionOrder[resolvedIndex - 1];
+
+    const target = targetId ? document.getElementById(targetId) : undefined;
+    if (!target) return;
+
+    const top = window.scrollY + target.getBoundingClientRect().top;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
 
   return (
     <div className="section-nav-controls" aria-label="Section navigation">
       {previousId ? (
-        <a href={`#${previousId}`} aria-label="Go to previous section">
+        <a
+          href={`#${previousId}`}
+          aria-label="Scroll up or go to previous section"
+          onClick={(event) => scrollWithinCurrentSection(event, "up")}
+        >
           ↑
         </a>
       ) : (
         <span aria-hidden="true">↑</span>
       )}
       {nextId ? (
-        <a href={`#${nextId}`} aria-label="Go to next section">
+        <a
+          href={`#${nextId}`}
+          aria-label="Scroll down or go to next section"
+          onClick={(event) => scrollWithinCurrentSection(event, "down")}
+        >
           ↓
         </a>
       ) : (
@@ -263,26 +316,24 @@ export default function PortfolioClient({
   }, []);
 
   useEffect(() => {
-    const sections = sectionOrder
-      .map((id) => document.querySelector<HTMLElement>(`#${id}`))
-      .filter((section): section is HTMLElement => Boolean(section));
-    if (!sections.length) return;
+    let animationFrame = 0;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target.id) setActiveSection(visible.target.id);
-      },
-      {
-        threshold: [0.28, 0.45, 0.6],
-        rootMargin: "-22% 0px -46% 0px",
-      },
-    );
+    const syncActiveSectionFromViewport = () => {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = window.requestAnimationFrame(() => {
+        setActiveSection((current) => getSectionIdFromViewport(current));
+      });
+    };
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    syncActiveSectionFromViewport();
+    window.addEventListener("scroll", syncActiveSectionFromViewport, { passive: true });
+    window.addEventListener("resize", syncActiveSectionFromViewport);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", syncActiveSectionFromViewport);
+      window.removeEventListener("resize", syncActiveSectionFromViewport);
+    };
   }, []);
 
   useEffect(() => {
@@ -355,7 +406,7 @@ export default function PortfolioClient({
         <div className="absolute left-1/2 top-1/2 h-[38rem] w-[38rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] opacity-40" />
         <section className="relative z-10 mx-auto w-full max-w-6xl px-5 py-32 sm:px-8 lg:px-12">
           <div className="max-w-4xl">
-            <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_78%,transparent)] px-4 py-2 font-[var(--font-mono)] text-xs uppercase tracking-[0.18em] text-[var(--accent)] shadow-[0_18px_50px_rgba(0,0,0,0.16)] backdrop-blur-xl">
+            <div className="hero-role-badge mb-6 inline-flex items-center gap-3 rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_78%,transparent)] px-4 py-2 font-[var(--font-mono)] text-xs uppercase tracking-[0.18em] text-[var(--accent)] shadow-[0_18px_50px_rgba(0,0,0,0.16)] backdrop-blur-xl">
               <span className="h-2 w-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
               Associate Project Manager | Software Engineer
             </div>
@@ -525,8 +576,8 @@ export default function PortfolioClient({
       <Section id="skills" alt>
         <SectionLabel index="05" label={t("nav.skills")} />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Technical Expertise</h2>
-        <div className="mt-8 grid overflow-hidden rounded-[1.75rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_72%,transparent)] shadow-[0_22px_80px_rgba(0,0,0,0.16)] backdrop-blur-xl lg:grid-cols-[260px_1fr]">
-          <div className="border-b border-[var(--border)] bg-[var(--bg2)]/60 p-3 lg:border-b-0 lg:border-r">
+        <div className="skills-panel mt-8 grid overflow-hidden rounded-[1.75rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_72%,transparent)] shadow-[0_22px_80px_rgba(0,0,0,0.16)] backdrop-blur-xl lg:grid-cols-[260px_1fr]">
+          <div className="skill-tabs border-b border-[var(--border)] bg-[var(--bg2)]/60 p-3 lg:border-b-0 lg:border-r">
             {skillNames.map((name) => (
               <button
                 key={name}
@@ -543,7 +594,7 @@ export default function PortfolioClient({
               </button>
             ))}
           </div>
-          <div className="min-h-[260px] p-6">
+          <div className="skill-content min-h-[260px] p-6">
             <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.16em] text-[var(--accent)]">
               {activeSkill}
             </p>
