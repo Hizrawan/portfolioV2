@@ -5,8 +5,15 @@ export type Project = {
   tags: string[];
   year: string;
   role: string;
+  detailType: "article" | "pdf";
   featuredOnHome?: boolean;
   externalUrl?: string;
+  pdfFile?: string;
+  gallery?: {
+    title: string;
+    description: string;
+    imageFile?: string;
+  }[];
   details: string[];
 };
 
@@ -17,7 +24,8 @@ export type Story = {
   status: string;
   readTime: string;
   excerpt: string;
-  pdfFile: string;
+  detailType: "blog" | "novel";
+  pdfFile?: string;
   featuredOnHome?: boolean;
   details: string[];
 };
@@ -46,8 +54,31 @@ export const projects: Project[] = [
     tags: ["Swift", "SwiftUI", "SQLite", "Node.js","Express","NextJS", "postgreSQL", "AWS", "Mobile Development"],
     year: "2026",
     role: "Solo Developer",
+    detailType: "article",
     featuredOnHome: true,
     externalUrl: "https://github.com/Hizrawan",
+    gallery: [
+      {
+        title: "Mobile learning flow",
+        description: "A focused lesson path for vocabulary, grammar practice, and daily study rhythm.",
+      },
+      {
+        title: "Admin dashboard",
+        description: "Next.js and PostgreSQL support content management for lessons and progress data.",
+      },
+      {
+        title: "Cloud backend",
+        description: "Express services deployed on AWS handle synchronization and API operations.",
+      },
+      {
+        title: "Quiz interaction",
+        description: "Practice sessions are structured around short feedback loops and repeatable review.",
+      },
+      {
+        title: "Progress tracking",
+        description: "Learning progress gives users a quick view of completed material and next steps.",
+      },
+    ],
     details: [
       "Designed and developed a mobile application focused on Indonesian language learning, utilizing Swift and SwiftUI for a native iOS experience.",
       "Implemented interactive lessons, quizzes, and personalized learning paths to enhance user engagement and retention.",
@@ -62,7 +93,26 @@ export const projects: Project[] = [
     tags: ["Next.js", "TypeScript", "Tailwind CSS","raspberry pi", "Linux", "Web Development"],
     year: "2026",
     role: "Solo Developer",
+    detailType: "article",
     featuredOnHome: true,
+    gallery: [
+      {
+        title: "Portfolio home",
+        description: "Snap-based sections keep the landing page readable while preserving a strong visual identity.",
+      },
+      {
+        title: "Content pages",
+        description: "Projects, certificates, and stories use reusable layouts for consistent navigation.",
+      },
+      {
+        title: "Self-hosted deploy",
+        description: "The site is prepared for Raspberry Pi deployment as an edge computing experiment.",
+      },
+      {
+        title: "Responsive cards",
+        description: "Reusable card layouts keep projects, certificates, and stories consistent across screens.",
+      },
+    ],
     details: [
       "Designed and developed a personal portfolio website using Next.js and TypeScript, with a focus on clean design and responsive layout.",
       "Implemented dynamic content rendering and optimized performance for fast load times.",
@@ -77,7 +127,18 @@ export const projects: Project[] = [
     tags: ["React Native", "JavaScript", "REST API"],
     year: "2017",
     role: "Programmer Intern",
+    detailType: "article",
     featuredOnHome: false,
+    gallery: [
+      {
+        title: "Attendance flow",
+        description: "Mobile screens supported day-to-day attendance recording for field and office users.",
+      },
+      {
+        title: "API integration",
+        description: "REST API calls connected the React Native client to existing company systems.",
+      },
+    ],
     details: [
       "Contributed to mobile UI development, interaction flows, and integration with backend endpoints.",
       "Worked in a mentorship environment with iterative testing and bug-fix cycles to strengthen delivery quality.",
@@ -92,6 +153,8 @@ export const projects: Project[] = [
     tags: ["Python", "openCV", "CNN", "pyQT"],
     year: "2018",
     role: "Solo Developer",
+    detailType: "pdf",
+    pdfFile: "/projects/aplikasi-penerjemah-bahasa-isyarat-indonesia.pdf",
     featuredOnHome: false,
     details: [
     "associate degree final project that involved designing and implementing a real-time sign language translation application using Python, OpenCV, and Convolutional Neural Networks (CNN).",
@@ -108,6 +171,7 @@ export const stories: Story[] = [
     type: "Novel",
     status: "Completed",
     readTime: "28 chapters",
+    detailType: "novel",
     pdfFile: "/stories/dalang.pdf",
     featuredOnHome: true,
     excerpt:
@@ -124,6 +188,7 @@ export const stories: Story[] = [
     type: "Novel",
     status: "In progress",
     readTime: "28 chapters",
+    detailType: "novel",
     pdfFile: "/stories/wayang.pdf",
     featuredOnHome: true,
     excerpt:
@@ -140,6 +205,7 @@ export const stories: Story[] = [
     type: "Blog · Technology",
     status: "Completed",
     readTime: "10 min read",
+    detailType: "blog",
     pdfFile: "/stories/blog1.pdf",
     featuredOnHome: true,
     excerpt:
@@ -156,8 +222,9 @@ export const stories: Story[] = [
     type: "Novel",
     status: "Coming soon",
     readTime: "28 chapters",
+    detailType: "novel",
     pdfFile: "/stories/bayang.pdf",
-    featuredOnHome: true,
+    featuredOnHome: false,
     excerpt:
       "Based on the Indonesian puppet tradition called wayang, BAYANG is the last book in a trilogy that explores the intricate dynamics of power, identity, and destiny through two young cadets who must learn to synchronize their minds inside a legendary war machine—only to discover that the real enemy may already be inside the walls they swore to protect.",
     details: [

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import SiteHeader from "../components/site-header";
+import { useLocalization } from "../components/localization-provider";
 import { type Certificate, projects, stories } from "../lib/content";
 
 const navItems = [
@@ -222,14 +224,29 @@ export default function PortfolioClient({
 }: {
   certificates: Certificate[];
 }) {
+  const { t } = useLocalization();
   const [activeSkill, setActiveSkill] = useState<keyof typeof skills>("Project Management");
   const [activeSection, setActiveSection] = useState("about");
+  const [openExperienceKey, setOpenExperienceKey] = useState<string | null>(null);
   const [typedName, setTypedName] = useState("\u00a0");
   const cursorRef = useRef<HTMLDivElement>(null);
   const skillNames = useMemo(() => Object.keys(skills) as Array<keyof typeof skills>, []);
   const homeProjects = projects.filter((project) => project.featuredOnHome);
   const homeStories = stories.filter((story) => story.featuredOnHome);
   const homeCertificates = certificates.filter((certificate) => certificate.featuredOnHome);
+
+  useEffect(() => {
+    const syncActiveSectionFromHash = () => {
+      const hashId = window.location.hash.slice(1);
+      if (sectionOrder.includes(hashId as (typeof sectionOrder)[number])) {
+        setActiveSection(hashId);
+      }
+    };
+
+    syncActiveSectionFromHash();
+    window.addEventListener("hashchange", syncActiveSectionFromHash);
+    return () => window.removeEventListener("hashchange", syncActiveSectionFromHash);
+  }, []);
 
   useEffect(() => {
     const sections = sectionOrder
@@ -317,78 +334,12 @@ export default function PortfolioClient({
     <main className="home-shell min-h-screen overflow-x-hidden bg-[var(--bg)] text-[var(--text)] selection:bg-[var(--accent)] selection:text-[var(--bg)]">
       <div ref={cursorRef} className="custom-crosshair" aria-hidden="true" />
       <SectionNavControls currentId={activeSection} />
-      <header className="fixed left-1/2 top-4 z-50 flex w-[min(1180px,calc(100%-1.5rem))] -translate-x-1/2 items-center justify-between rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_74%,transparent)] px-4 py-3 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:px-6">
-        <div className="flex min-w-0 items-center gap-5 lg:gap-10">
-          <a href="#hero" className="shrink-0 rounded-full border border-[var(--border2)] bg-[var(--accent-dim)] px-3 py-2 font-[var(--font-mono)] text-xs tracking-[0.12em] text-[var(--text)]">
-            Hizrawan Dwi Oka
-          </a>
-          <nav className="hidden gap-4 overflow-x-auto font-[var(--font-mono)] text-[0.68rem] uppercase tracking-[0.1em] text-[var(--muted)] lg:flex lg:gap-7">
-            {navItems.map(([label, href]) => (
-              <a
-                key={href}
-                href={href}
-                className={`rounded-full px-2 py-1 transition hover:text-[var(--accent)] ${
-                  activeSection === href.slice(1)
-                    ? "bg-[var(--accent-dim)] text-[var(--accent)] shadow-[0_0_24px_rgba(0,229,180,0.28)]"
-                    : ""
-                }`}
-              >
-                {label}
-              </a>
-            ))}
-          </nav>
-        </div>
-        <div className="flex items-center gap-4">
-          <a
-            href="https://github.com/Hizrawan"
-            target="_blank"
-            rel="noreferrer"
-            title="GitHub"
-            className="grid h-10 w-10 place-items-center rounded-full border border-[var(--border2)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
-          >
-            <GitHubIcon />
-            <span className="sr-only">GitHub</span>
-          </a>
-          <button
-            id="themeToggle"
-            type="button"
-            title="Toggle theme"
-            className="grid h-10 w-10 place-items-center rounded-full border border-[var(--border2)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-2"
-          >
-            <ThemeIcon />
-          </button>
-          <details className="group relative lg:hidden">
-            <summary className="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-full border border-[var(--border2)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] [&::-webkit-details-marker]:hidden">
-              <span className="relative h-3.5 w-5">
-                <span className="absolute left-0 top-0 h-px w-full bg-current transition group-open:top-1.5 group-open:rotate-45" />
-                <span className="absolute left-0 top-1.5 h-px w-full bg-current transition group-open:opacity-0" />
-                <span className="absolute left-0 top-3 h-px w-full bg-current transition group-open:top-1.5 group-open:-rotate-45" />
-              </span>
-              <span className="sr-only">Open navigation</span>
-            </summary>
-            <nav className="absolute right-0 top-12 grid min-w-52 gap-1 rounded-2xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_94%,transparent)] p-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] shadow-[0_18px_60px_rgba(0,0,0,0.26)] backdrop-blur-2xl">
-              {navItems.map(([label, href]) => (
-                <a
-                  key={href}
-                  href={href}
-                  className={`rounded-xl px-3 py-2 transition hover:bg-[var(--accent-dim)] hover:text-[var(--accent)] ${
-                    activeSection === href.slice(1)
-                      ? "bg-[var(--accent-dim)] text-[var(--accent)] shadow-[0_0_24px_rgba(0,229,180,0.22)]"
-                      : ""
-                  }`}
-                >
-                  {label}
-                </a>
-              ))}
-            </nav>
-          </details>
-        </div>
-      </header>
+      <SiteHeader activeSection={activeSection} />
 
-      <div id="hero-wrap" className="relative flex min-h-svh items-center overflow-hidden bg-[var(--bg)]">
+      <div id="hero" className="relative flex min-h-svh items-center overflow-hidden bg-[var(--bg)]">
         <div className="absolute inset-[-20%] bg-[radial-gradient(circle_at_16%_20%,rgba(0,229,180,0.24),transparent_34%),radial-gradient(circle_at_88%_72%,rgba(212,168,67,0.18),transparent_38%),linear-gradient(135deg,transparent,rgba(255,255,255,0.035))]" />
         <div className="absolute left-1/2 top-1/2 h-[38rem] w-[38rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] opacity-40" />
-        <section id="hero" className="relative z-10 mx-auto w-full max-w-6xl px-5 py-32 sm:px-8 lg:px-12">
+        <section className="relative z-10 mx-auto w-full max-w-6xl px-5 py-32 sm:px-8 lg:px-12">
           <div className="max-w-4xl">
             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_78%,transparent)] px-4 py-2 font-[var(--font-mono)] text-xs uppercase tracking-[0.18em] text-[var(--accent)] shadow-[0_18px_50px_rgba(0,0,0,0.16)] backdrop-blur-xl">
               <span className="h-2 w-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
@@ -406,10 +357,10 @@ export default function PortfolioClient({
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <a href="/cv/20260223_CV_hizrawan_PM.pdf" download className="group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
-                Download CV <span className="inline-block transition group-hover:translate-y-0.5">↓</span>
+                {t("home.downloadCv")} <span className="inline-block transition group-hover:translate-y-0.5">↓</span>
               </a>
               <a href="#contact" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_58%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">
-                Contact Me
+                {t("home.contactMe")}
               </a>
             </div>
           </div>
@@ -417,7 +368,7 @@ export default function PortfolioClient({
       </div>
 
       <Section id="about" alt>
-        <SectionLabel index="01" label="About" />
+        <SectionLabel index="01" label={t("nav.about")} />
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
           <div className="about-breathing relative mx-auto aspect-square w-full max-w-sm rounded-[2rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg3)_78%,transparent)] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.26)] backdrop-blur-xl">
             <div className="absolute -right-5 -top-5 h-28 w-28 rounded-full bg-[var(--accent-dim)] blur-xl" />
@@ -456,11 +407,21 @@ export default function PortfolioClient({
       </Section>
 
       <Section id="experience">
-        <SectionLabel index="02" label="Experience" />
+        <SectionLabel index="02" label={t("nav.experience")} />
         <div className="space-y-4">
-          {experiences.map((item) => (
-            <details key={`${item.company}-${item.date}`} className="group rounded-3xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:border-[var(--accent)]">
-              <summary className="grid cursor-pointer list-none gap-4 lg:grid-cols-[180px_1fr_auto] lg:items-center">
+          {experiences.map((item) => {
+            const experienceKey = `${item.company}-${item.date}`;
+            const isOpen = openExperienceKey === experienceKey;
+
+            return (
+            <details key={experienceKey} open={isOpen} className="group rounded-3xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:border-[var(--accent)]">
+              <summary
+                className="grid cursor-pointer list-none gap-4 lg:grid-cols-[180px_1fr_auto] lg:items-center"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setOpenExperienceKey(isOpen ? null : experienceKey);
+                }}
+              >
                 <span className="font-[var(--font-mono)] text-xs uppercase tracking-[0.16em] text-[var(--muted)]">{item.date}</span>
                 <span>
                   <span className="block font-[var(--font-serif)] text-3xl transition group-hover:text-[var(--accent)]">{item.title}</span>
@@ -480,12 +441,13 @@ export default function PortfolioClient({
                 ))}
               </ul>
             </details>
-          ))}
+            );
+          })}
         </div>
       </Section>
 
       <Section id="education" alt>
-        <SectionLabel index="03" label="Academic" />
+        <SectionLabel index="03" label={t("nav.education")} />
         <div className="grid gap-5 md:grid-cols-3">
           {education.map((item, index) => (
             <a
@@ -512,7 +474,7 @@ export default function PortfolioClient({
       </Section>
 
       <Section id="certificates">
-        <SectionLabel index="04" label="Certificates" />
+        <SectionLabel index="04" label={t("nav.certificates")} />
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Certificates & Credentials</h2>
@@ -521,12 +483,12 @@ export default function PortfolioClient({
             </p>
           </div>
           <Link href="/certificates" className="inline-flex w-fit rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
-            Show All Certificates
+            {t("home.showAllCertificates")}
           </Link>
         </div>
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {homeCertificates.map((certificate) => (
-            <Link key={certificate.slug} href={`/certificates/${certificate.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
+            <Link key={certificate.slug} href={`/certificates/${certificate.slug}`} className="home-certificate-card group flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
               <div className="certificate-card-cover relative mb-5 flex aspect-[16/9] items-center justify-center overflow-hidden rounded-2xl border border-[var(--border)]">
                 <span className="font-[var(--font-serif)] text-4xl text-[var(--accent)]">{certificate.score ?? certificate.year}</span>
                 <img
@@ -538,16 +500,16 @@ export default function PortfolioClient({
                   }}
                 />
               </div>
-              <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{certificate.issuer}</p>
-              <h3 className="mt-3 font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{certificate.title}</h3>
-              <p className="mt-4 text-[var(--muted)]">{certificate.summary}</p>
+              <p className="home-certificate-issuer font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{certificate.issuer}</p>
+              <h3 className="home-certificate-title mt-3 font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{certificate.title}</h3>
+              <p className="home-certificate-summary mt-4 flex-1 text-[var(--muted)]">{certificate.summary}</p>
             </Link>
           ))}
         </div>
       </Section>
 
       <Section id="skills" alt>
-        <SectionLabel index="05" label="Skills" />
+        <SectionLabel index="05" label={t("nav.skills")} />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Technical Expertise</h2>
         <div className="mt-8 grid overflow-hidden rounded-[1.75rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_72%,transparent)] shadow-[0_22px_80px_rgba(0,0,0,0.16)] backdrop-blur-xl lg:grid-cols-[260px_1fr]">
           <div className="border-b border-[var(--border)] bg-[var(--bg2)]/60 p-3 lg:border-b-0 lg:border-r">
@@ -586,23 +548,23 @@ export default function PortfolioClient({
       </Section>
 
       <Section id="projects">
-        <SectionLabel index="06" label="Projects" />
+        <SectionLabel index="06" label={t("nav.projects")} />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Personal Projects</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {homeProjects.map((project) => (
-            <Link key={project.slug} href={`/projects/${project.slug}`} className="group relative overflow-hidden rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
+            <Link key={project.slug} href={`/projects/${project.slug}`} className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
               <span className="absolute right-0 top-0 h-28 w-28 translate-x-8 -translate-y-8 rounded-full bg-[var(--accent-dim)] blur-2xl transition group-hover:scale-150" />
               <div className="project-card-cover relative mb-5 flex aspect-[16/10] items-end overflow-hidden rounded-2xl border border-[var(--border)] p-4">
                 <span className="relative z-10 font-[var(--font-mono)] text-[0.62rem] uppercase tracking-[0.18em] text-[var(--accent)]">
                   Personal Project
                 </span>
               </div>
-              <div className="flex items-start justify-between gap-4 px-2">
+              <div className="flex min-h-20 items-start justify-between gap-4 px-2">
                 <h3 className="relative font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{project.title}</h3>
                 <span className="font-[var(--font-mono)] text-xs text-[var(--accent)]">{project.year}</span>
               </div>
-              <p className="relative mt-4 px-2 text-[var(--muted)]">{project.summary}</p>
-              <div className="mt-5 flex flex-wrap gap-2 px-2 pb-2">
+              <p className="relative mt-4 min-h-24 flex-1 px-2 text-[var(--muted)]">{project.summary}</p>
+              <div className="mt-auto flex min-h-16 flex-wrap content-start gap-2 px-2 pb-2 pt-5">
                 {project.tags.map((tag) => (
                   <span key={tag} className="rounded-full bg-[var(--accent-dim)] px-3 py-1 text-xs text-[var(--accent)]">{tag}</span>
                 ))}
@@ -612,28 +574,28 @@ export default function PortfolioClient({
         </div>
         <div className="mt-8 text-center">
           <Link href="/projects" className="inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
-            Show All Projects
+            {t("home.showAllProjects")}
           </Link>
         </div>
       </Section>
 
       <Section id="writing" alt>
-        <SectionLabel index="07" label="Writing" />
+        <SectionLabel index="07" label={t("nav.stories")} />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Stories & Thoughts</h2>
         <p className="mt-5 max-w-2xl leading-8 text-[var(--muted)]">
           In my spare time, I like to write. This section collects stories, blog notes, and personal writing pieces I have created outside of engineering work.
         </p>
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {homeStories.map((story) => (
-            <Link key={story.slug} href={`/stories/${story.slug}`} className="group rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">
+            <Link key={story.slug} href={`/stories/${story.slug}`} className="group flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">
               <div className="story-card-cover mb-5 flex aspect-[16/10] items-center justify-center rounded-2xl border border-[var(--border)]">
                 <span className="font-[var(--font-serif)] text-5xl text-[var(--accent)]">{getStoryKind(story.type)}</span>
               </div>
-              <div className="px-2 pb-2">
-              <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{story.type}</p>
-              <h3 className="mt-3 font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{story.title}</h3>
-              <p className="mt-4 text-[var(--muted)]">{story.excerpt}</p>
-              <div className="mt-5 flex justify-between font-[var(--font-mono)] text-xs uppercase tracking-[0.1em] text-[var(--muted)]">
+              <div className="flex flex-1 flex-col px-2 pb-2">
+              <p className="min-h-6 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{story.type}</p>
+              <h3 className="mt-3 min-h-16 font-[var(--font-serif)] text-2xl transition group-hover:text-[var(--accent)]">{story.title}</h3>
+              <p className="mt-4 min-h-40 flex-1 text-[var(--muted)]">{story.excerpt}</p>
+              <div className="mt-auto flex justify-between gap-4 pt-5 font-[var(--font-mono)] text-xs uppercase tracking-[0.1em] text-[var(--muted)]">
                 <span>{story.status}</span>
                 <span>{story.readTime}</span>
               </div>
@@ -643,13 +605,13 @@ export default function PortfolioClient({
         </div>
         <div className="mt-8 text-center">
           <Link href="/stories" className="inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
-            Show All Stories
+            {t("home.showAllStories")}
           </Link>
         </div>
       </Section>
 
       <Section id="contact">
-        <SectionLabel index="08" label="Contact" />
+        <SectionLabel index="08" label={t("nav.contact")} />
         <div className="max-w-3xl">
           <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Let&apos;s build the next thing.</h2>
           <p className="mt-6 text-lg leading-8 text-[var(--muted)]">

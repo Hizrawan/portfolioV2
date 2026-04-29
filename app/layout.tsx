@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Cormorant_Garamond, DM_Mono } from "next/font/google";
+import { LocalizationProvider } from "../components/localization-provider";
 import VisitProvider from "../components/visit-provider";
 import "./globals.css";
 
@@ -26,8 +27,9 @@ export const metadata: Metadata = {
   title: "Hizrawan's Portfolio",
   description: "Portfolio website built with Next.js",
   icons: {
-    icon: "/profile.jpg",
-    apple: "/profile.jpg",
+    icon: "/hizrawan-profile.jpg",
+    shortcut: "/hizrawan-profile.jpg",
+    apple: "/hizrawan-profile.jpg",
   },
 };
 
@@ -42,7 +44,9 @@ export default function RootLayout({
       className={`${outfit.variable} ${cormorant.variable} ${dmMono.variable}`}
     >
       <body>
-        <VisitProvider>{children}</VisitProvider>
+        <LocalizationProvider>
+          <VisitProvider>{children}</VisitProvider>
+        </LocalizationProvider>
       </body>
     </html>
   );

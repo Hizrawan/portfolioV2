@@ -1,36 +1,36 @@
+"use client";
+
 import Link from "next/link";
-import ContentNav from "../../components/content-nav";
+import SiteHeader from "../../components/site-header";
+import { useLocalization } from "../../components/localization-provider";
 import { certificates } from "../../lib/content";
 
-export const metadata = {
-  title: "Hizrawan's Portfolio",
-  description: "List of certificates, credentials, and language proficiency records.",
-};
-
 export default function CertificatesPage() {
+  const { t } = useLocalization();
+
   return (
     <main className="content-page">
-      <ContentNav />
+      <SiteHeader linkMode="home" />
 
       <section className="content-wrapper">
         <div className="content-page-hero">
           <div>
-            <p className="content-kicker">Credentials</p>
-            <h1 className="content-title">All Certificates</h1>
+            <p className="content-kicker">{t("certificates.kicker")}</p>
+            <h1 className="content-title">{t("certificates.title")}</h1>
             <p className="content-subtitle">
-              Project management preparation, professional language certificates, and credentials that support international collaboration.
+              {t("certificates.subtitle")}
             </p>
           </div>
           <div className="content-back-actions">
             <Link href="/" className="content-back-link">
-              ← Back to Home
+              ← {t("pages.backHome")}
             </Link>
           </div>
         </div>
 
         <div className="content-grid">
           {certificates.map((certificate) => (
-            <article key={certificate.slug} className="content-card">
+            <article key={certificate.slug} className="content-card certificate-list-card">
               <div className="certificate-card-cover content-card-cover">
                 <span>{certificate.score ?? certificate.year}</span>
                 <img src={certificate.imageFile} alt={`${certificate.title} certificate`} />
@@ -43,14 +43,14 @@ export default function CertificatesPage() {
               <h2>{certificate.title}</h2>
               <p>{certificate.summary}</p>
 
-              <div className="content-tag-row">
+              <div className="content-tag-row certificate-issuer-row">
                 <span className="content-tag">{certificate.issuer}</span>
                 {certificate.score ? <span className="content-tag">Score {certificate.score}</span> : null}
               </div>
 
               <div className="content-link-row">
                 <Link href={`/certificates/${certificate.slug}`} className="content-link">
-                  View Certificate
+                  {t("pages.viewCertificate")}
                 </Link>
                 {certificate.externalUrl ? (
                   <a
@@ -59,7 +59,7 @@ export default function CertificatesPage() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Issuer
+                    {t("pages.issuer")}
                   </a>
                 ) : null}
               </div>

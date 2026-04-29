@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ContentNav from "../../../components/content-nav";
+import SiteHeader from "../../../components/site-header";
 import { certificateBySlug, certificates } from "../../../lib/content";
 
 type CertificateDetailPageProps = {
@@ -42,7 +42,7 @@ export default async function CertificateDetailPage({ params }: CertificateDetai
 
   return (
     <main className="content-page">
-      <ContentNav />
+      <SiteHeader linkMode="home" />
 
       <section className="content-wrapper story-reader-wrapper">
         <div className="content-page-hero detail-hero">

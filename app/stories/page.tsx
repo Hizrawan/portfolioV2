@@ -1,11 +1,9 @@
-import Link from "next/link";
-import ContentNav from "../../components/content-nav";
-import { stories } from "../../lib/content";
+"use client";
 
-export const metadata = {
-  title: "Hizrawan's Portfolio",
-  description: "List of all stories and writings.",
-};
+import Link from "next/link";
+import SiteHeader from "../../components/site-header";
+import { useLocalization } from "../../components/localization-provider";
+import { stories } from "../../lib/content";
 
 function getStoryKind(type: string) {
   const lower = type.toLowerCase();
@@ -16,22 +14,24 @@ function getStoryKind(type: string) {
 }
 
 export default function StoriesPage() {
+  const { t } = useLocalization();
+
   return (
     <main className="content-page">
-      <ContentNav />
+      <SiteHeader linkMode="home" />
 
       <section className="content-wrapper">
         <div className="content-page-hero">
           <div>
-            <p className="content-kicker">Writing</p>
-            <h1 className="content-title">All Stories</h1>
+            <p className="content-kicker">{t("stories.kicker")}</p>
+            <h1 className="content-title">{t("stories.title")}</h1>
             <p className="content-subtitle">
-              This page contains all writings and story works, with a detail page for each title.
+              {t("stories.subtitle")}
             </p>
           </div>
           <div className="content-back-actions">
             <Link href="/" className="content-back-link">
-              ← Back to Home
+              ← {t("pages.backHome")}
             </Link>
           </div>
         </div>
@@ -53,7 +53,7 @@ export default function StoriesPage() {
 
               <div className="content-link-row">
                 <Link href={`/stories/${story.slug}`} className="content-link">
-                  View Detail
+                  {t("pages.viewDetail")}
                 </Link>
               </div>
             </article>

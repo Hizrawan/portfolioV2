@@ -1,6 +1,9 @@
+import fs from "node:fs";
+import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ContentNav from "../../../components/content-nav";
+import ProjectGallery from "../../../components/project-gallery";
+import SiteHeader from "../../../components/site-header";
 import { projectBySlug, projects } from "../../../lib/content";
 
 type ProjectDetailPageProps = {
@@ -35,11 +38,18 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     notFound();
   }
 
+  const isPdfProject = project.detailType === "pdf";
+  const pdfPath = project.pdfFile
+    ? path.join(process.cwd(), "public", project.pdfFile.replace(/^\//, ""))
+    : "";
+  const hasPdf = Boolean(project.pdfFile && fs.existsSync(pdfPath));
+  const gallery = project.gallery ?? [];
+
   return (
     <main className="content-page">
-      <ContentNav />
+      <SiteHeader linkMode="home" />
 
-      <section className="content-wrapper content-detail">
+      <section className={`content-wrapper ${isPdfProject ? "story-reader-wrapper" : "project-detail-wrapper"}`}>
         <div className="content-page-hero detail-hero">
           <div>
             <p className="content-kicker">
@@ -58,32 +68,125 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </div>
         </div>
 
-        <div className="content-tag-row">
-          {project.tags.map((tag) => (
-            <span key={tag} className="content-tag">
-              {tag}
-            </span>
-          ))}
-        </div>
+        {isPdfProject ? (
+          <article className="story-reader" aria-label={`${project.title} PDF viewer`}>
+            <header className="story-reader-topbar">
+              <div>
+                <span className="story-reader-label">Project PDF Viewer</span>
+                <p>
+                  {project.year} · {project.role}
+                </p>
+              </div>
+              {project.pdfFile ? (
+                <div className="story-reader-tools" aria-label="Project PDF controls">
+                  <a href={project.pdfFile} target="_blank" rel="noreferrer">
+                    Open PDF
+                  </a>
+                  <a href={project.pdfFile} download>
+                    Download
+                  </a>
+                  {project.externalUrl ? (
+                    <a href={project.externalUrl} target="_blank" rel="noreferrer">
+                      External
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
+            </header>
 
-        <div className="content-prose">
-          {project.details.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
+            <div className="story-book">
+              <div className="story-pdf-page">
+                <div className="story-page-meta">
+                  <span>{project.role}</span>
+                  <span>{hasPdf ? "PDF Ready" : "PDF Missing"}</span>
+                </div>
 
-        {project.externalUrl ? (
-          <div className="content-link-row">
-            <a
-              href={project.externalUrl}
-              className="content-link"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Open External Link
-            </a>
-          </div>
-        ) : null}
+                <div className="content-tag-row">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="content-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="content-prose">
+                  {project.details.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+
+                {hasPdf && project.pdfFile ? (
+                  <iframe
+                    className="story-pdf-frame"
+                    src={`${project.pdfFile}#toolbar=1&navpanes=0&view=FitH`}
+                    title={`${project.title} PDF viewer`}
+                  />
+                ) : (
+                  <div className="story-pdf-placeholder">
+                    <p>PDF untuk project ini belum tersedia.</p>
+                    <p>
+                      Simpan file PDF di <code>public{project.pdfFile ?? "/projects/nama-file.pdf"}</code>,
+                      lalu halaman ini otomatis menjadi viewer.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </article>
+        ) : (
+          <article className="project-article" aria-label={`${project.title} case study`}>
+            <div className="project-article-layout">
+              <aside className="project-article-sidebar">
+                <span>Case Study</span>
+                <strong>{project.year}</strong>
+                <p>{project.role}</p>
+              </aside>
+
+              <div className="project-article-main">
+                <div className="content-tag-row">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="content-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {gallery.length ? <ProjectGallery items={gallery} projectTitle={project.title} /> : null}
+
+                <section className="project-info-section">
+                  <p className="project-section-kicker">Description</p>
+                  <div className="content-prose project-prose">
+                    {project.details.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="project-info-section">
+                  <p className="project-section-kicker">Technology Used</p>
+                  <div className="project-tech-grid">
+                    {project.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                </section>
+
+                {project.externalUrl ? (
+                  <div className="content-link-row">
+                    <a
+                      href={project.externalUrl}
+                      className="content-link"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open External Link
+                    </a>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </article>
+        )}
       </section>
     </main>
   );

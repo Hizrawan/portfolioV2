@@ -1,38 +1,38 @@
+"use client";
+
 import Link from "next/link";
-import ContentNav from "../../components/content-nav";
+import SiteHeader from "../../components/site-header";
+import { useLocalization } from "../../components/localization-provider";
 import { projects } from "../../lib/content";
 
-export const metadata = {
-  title: "Hizrawan's Portfolio",
-  description: "List of all project case studies.",
-};
-
 export default function ProjectsPage() {
+  const { t } = useLocalization();
+
   return (
     <main className="content-page">
-      <ContentNav />
+      <SiteHeader linkMode="home" />
 
       <section className="content-wrapper">
         <div className="content-page-hero">
           <div>
-            <p className="content-kicker">Portfolio</p>
-            <h1 className="content-title">All Projects</h1>
+            <p className="content-kicker">{t("projects.kicker")}</p>
+            <h1 className="content-title">{t("projects.title")}</h1>
             <p className="content-subtitle">
-              A collection of projects that have been worked on, complete with a summary and a detailed page for each project.
+              {t("projects.subtitle")}
             </p>
           </div>
           <div className="content-back-actions">
             <Link href="/" className="content-back-link">
-              ← Back to Home
+              ← {t("pages.backHome")}
             </Link>
           </div>
         </div>
 
         <div className="content-grid">
           {projects.map((project) => (
-            <article key={project.slug} className="content-card">
+            <article key={project.slug} className="content-card project-list-card">
               <div className="project-card-cover content-card-cover">
-                <span>Personal Project</span>
+                <span>{t("projects.cardLabel")}</span>
               </div>
 
               <div className="content-card-meta">
@@ -42,7 +42,7 @@ export default function ProjectsPage() {
               <h2>{project.title}</h2>
               <p>{project.summary}</p>
 
-              <div className="content-tag-row">
+              <div className="content-tag-row project-tech-row">
                 {project.tags.map((tag) => (
                   <span key={tag} className="content-tag">
                     {tag}
@@ -52,7 +52,7 @@ export default function ProjectsPage() {
 
               <div className="content-link-row">
                 <Link href={`/projects/${project.slug}`} className="content-link">
-                  View Detail
+                  {t("pages.viewDetail")}
                 </Link>
                 {project.externalUrl ? (
                   <a
@@ -61,7 +61,7 @@ export default function ProjectsPage() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    External
+                    {t("pages.external")}
                   </a>
                 ) : null}
               </div>

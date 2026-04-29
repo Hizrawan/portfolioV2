@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ContentNav from "../../../components/content-nav";
+import SiteHeader from "../../../components/site-header";
 import { stories, storyBySlug } from "../../../lib/content";
 
 type StoryDetailPageProps = {
@@ -37,14 +37,17 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
     notFound();
   }
 
-  const pdfPath = path.join(process.cwd(), "public", story.pdfFile.replace(/^\//, ""));
-  const hasPdf = fs.existsSync(pdfPath);
+  const pdfPath = story.pdfFile
+    ? path.join(process.cwd(), "public", story.pdfFile.replace(/^\//, ""))
+    : "";
+  const hasPdf = Boolean(story.pdfFile && fs.existsSync(pdfPath));
+  const isBlog = story.detailType === "blog";
 
   return (
     <main className="content-page">
-      <ContentNav />
+      <SiteHeader linkMode="home" />
 
-      <section className="content-wrapper story-reader-wrapper">
+      <section className={`content-wrapper ${isBlog ? "article-wrapper" : "story-reader-wrapper"}`}>
         <div className="content-page-hero detail-hero">
           <div>
             <p className="content-kicker">{story.type}</p>
@@ -61,49 +64,83 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
           </div>
         </div>
 
-        <article className="story-reader" aria-label={`${story.title} reader`}>
-          <header className="story-reader-topbar">
-            <div>
-              <span className="story-reader-label">Reader Mode</span>
-              <p>
-                {story.type} · {story.readTime}
-              </p>
-            </div>
-            <div className="story-reader-tools" aria-label="Reader display controls">
-              <a href={story.pdfFile} target="_blank" rel="noreferrer">
-                Open PDF
-              </a>
-              <a href={story.pdfFile} download>
-                Download
-              </a>
-            </div>
-          </header>
-
-          <div className="story-book">
-            <div className="story-pdf-page">
-              <div className="story-page-meta">
-                <span>{story.status}</span>
-                <span>{hasPdf ? "PDF Ready" : "PDF Missing"}</span>
-              </div>
-
-              {hasPdf ? (
-                <iframe
-                  className="story-pdf-frame"
-                  src={`${story.pdfFile}#toolbar=1&navpanes=0&view=FitH`}
-                  title={`${story.title} PDF reader`}
-                />
-              ) : (
-                <div className="story-pdf-placeholder">
-                  <p>PDF untuk story ini belum tersedia.</p>
+        {isBlog ? (
+          <article className="blog-article" aria-label={`${story.title} article`}>
+            <header className="blog-article-header">
+              <div className="blog-author-chip">
+                <span>H</span>
+                <div>
+                  <strong>Hizrawan Dwi Oka</strong>
                   <p>
-                    Simpan file PDF di <code>public{story.pdfFile}</code>, lalu halaman
-                    ini otomatis menjadi reader untuk file tersebut.
+                    {story.status} · {story.readTime}
                   </p>
                 </div>
-              )}
+              </div>
+              <div className="blog-article-actions">
+                <span>{story.type}</span>
+                <span>Portfolio Journal</span>
+              </div>
+            </header>
+
+            <div className="blog-article-cover">
+              <span>{story.type}</span>
+              <strong>{story.title}</strong>
             </div>
-          </div>
-        </article>
+
+            <div className="blog-article-body">
+              <p className="blog-article-lead">{story.excerpt}</p>
+              {story.details.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </article>
+        ) : (
+          <article className="story-reader" aria-label={`${story.title} reader`}>
+            <header className="story-reader-topbar">
+              <div>
+                <span className="story-reader-label">Novel PDF Reader</span>
+                <p>
+                  {story.type} · {story.readTime}
+                </p>
+              </div>
+              {story.pdfFile ? (
+                <div className="story-reader-tools" aria-label="Reader display controls">
+                  <a href={story.pdfFile} target="_blank" rel="noreferrer">
+                    Open PDF
+                  </a>
+                  <a href={story.pdfFile} download>
+                    Download
+                  </a>
+                </div>
+              ) : null}
+            </header>
+
+            <div className="story-book">
+              <div className="story-pdf-page">
+                <div className="story-page-meta">
+                  <span>{story.status}</span>
+                  <span>{hasPdf ? "PDF Ready" : "PDF Missing"}</span>
+                </div>
+
+                {hasPdf && story.pdfFile ? (
+                  <iframe
+                    className="story-pdf-frame"
+                    src={`${story.pdfFile}#toolbar=1&navpanes=0&view=FitH`}
+                    title={`${story.title} PDF reader`}
+                  />
+                ) : (
+                  <div className="story-pdf-placeholder">
+                    <p>PDF untuk novel ini belum tersedia.</p>
+                    <p>
+                      Simpan file PDF di <code>public{story.pdfFile ?? "/stories/nama-file.pdf"}</code>,
+                      lalu halaman ini otomatis menjadi reader untuk file tersebut.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </article>
+        )}
       </section>
     </main>
   );
