@@ -9,6 +9,64 @@ type StoryDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function renderBlogBlock(block: string, index: number) {
+  if (block.startsWith("## ")) {
+    return (
+      <h2 key={`${index}-${block}`} className="blog-section-heading">
+        {block.replace("## ", "")}
+      </h2>
+    );
+  }
+
+  if (block.startsWith("### ")) {
+    return (
+      <h3 key={`${index}-${block}`} className="blog-subheading">
+        {block.replace("### ", "")}
+      </h3>
+    );
+  }
+
+  if (block.startsWith("Step ")) {
+    const [label = "Step", rest = block] = block.split(": ");
+    const [title = rest, body = ""] = rest.split(" - ");
+
+    return (
+      <section key={`${index}-${block}`} className="blog-step-card">
+        <span>{label}</span>
+        <h3>{title}</h3>
+        {body ? <p>{body}</p> : null}
+      </section>
+    );
+  }
+
+  if (block.startsWith("Security note:")) {
+    return (
+      <aside key={`${index}-${block}`} className="blog-callout">
+        <strong>Security note</strong>
+        <p>{block.replace("Security note: ", "")}</p>
+      </aside>
+    );
+  }
+
+  if (block.startsWith("Command:")) {
+    return (
+      <pre key={`${index}-${block}`} className="blog-code-block">
+        <code>{block.replace("Command:\n", "").replace("Command: ", "")}</code>
+      </pre>
+    );
+  }
+
+  if (block.startsWith("Config:")) {
+    return (
+      <pre key={`${index}-${block}`} className="blog-code-block">
+        <code>{block.replace("Config:\n", "").replace("Config: ", "")}</code>
+      </pre>
+    );
+  }
+
+  return <p key={`${index}-${block}`}>{block}</p>;
+}
+
 export async function generateStaticParams() {
   return stories.map((story) => ({ slug: story.slug }));
 }
@@ -89,9 +147,7 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
 
             <div className="blog-article-body">
               <p className="blog-article-lead">{story.excerpt}</p>
-              {story.details.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {story.details.map(renderBlogBlock)}
             </div>
           </article>
         ) : (
@@ -103,16 +159,6 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
                   {story.type} · {story.readTime}
                 </p>
               </div>
-              {story.pdfFile ? (
-                <div className="story-reader-tools" aria-label="Reader display controls">
-                  <a href={story.pdfFile} target="_blank" rel="noreferrer">
-                    Open PDF
-                  </a>
-                  <a href={story.pdfFile} download>
-                    Download
-                  </a>
-                </div>
-              ) : null}
             </header>
 
             <div className="story-book">
@@ -123,11 +169,14 @@ export default async function StoryDetailPage({ params }: StoryDetailPageProps) 
                 </div>
 
                 {hasPdf && story.pdfFile ? (
-                  <iframe
-                    className="story-pdf-frame"
-                    src={`${story.pdfFile}#toolbar=1&navpanes=0&view=FitH`}
-                    title={`${story.title} PDF reader`}
-                  />
+                  <div className="pdf-viewer-shell">
+                    <iframe
+                      className="story-pdf-frame"
+                      src={`${story.pdfFile}#toolbar=1&navpanes=0&scrollbar=1&view=FitH`}
+                      title={`${story.title} PDF reader`}
+                    />
+                    <span className="pdf-toolbar-mask" aria-hidden="true" />
+                  </div>
                 ) : (
                   <div className="story-pdf-placeholder">
                     <p>PDF untuk novel ini belum tersedia.</p>

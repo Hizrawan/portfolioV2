@@ -55,11 +55,11 @@ export default function CertificatesPage() {
                 {certificate.externalUrl ? (
                   <a
                     href={certificate.externalUrl}
-                    className="content-link secondary"
+                    className="content-link secondary issuer-verify-link"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {t("pages.issuer")}
+                    Click here to verify with the issuer
                   </a>
                 ) : null}
               </div>

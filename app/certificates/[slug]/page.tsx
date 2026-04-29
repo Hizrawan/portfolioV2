@@ -1,5 +1,3 @@
-import fs from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteHeader from "../../../components/site-header";
@@ -37,9 +35,6 @@ export default async function CertificateDetailPage({ params }: CertificateDetai
     notFound();
   }
 
-  const pdfPath = path.join(process.cwd(), "public", certificate.pdfFile.replace(/^\//, ""));
-  const hasPdf = fs.existsSync(pdfPath);
-
   return (
     <main className="content-page">
       <SiteHeader linkMode="home" />
@@ -71,26 +66,20 @@ export default async function CertificateDetailPage({ params }: CertificateDetai
                 {certificate.issuer} · {certificate.score ? `Score ${certificate.score}` : certificate.year}
               </p>
             </div>
-            <div className="story-reader-tools" aria-label="Certificate controls">
-              <a href={certificate.pdfFile} target="_blank" rel="noreferrer">
-                Open PDF
-              </a>
-              <a href={certificate.pdfFile} download>
-                Download
-              </a>
-              {certificate.externalUrl ? (
-                <a href={certificate.externalUrl} target="_blank" rel="noreferrer">
-                  Issuer
+            {certificate.externalUrl ? (
+              <div className="story-reader-tools" aria-label="Certificate controls">
+                <a className="issuer-verify-link" href={certificate.externalUrl} target="_blank" rel="noreferrer">
+                  Click here to verify with the issuer
                 </a>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </header>
 
           <div className="story-book">
             <div className="story-pdf-page">
               <div className="story-page-meta">
                 <span>{certificate.status}</span>
-                <span>{hasPdf ? "PDF Ready" : "PDF Missing"}</span>
+                <span>Certificate Image</span>
               </div>
 
               <div className="content-tag-row">
@@ -104,20 +93,9 @@ export default async function CertificateDetailPage({ params }: CertificateDetai
                 ))}
               </div>
 
-              {hasPdf ? (
-                <iframe
-                  className="story-pdf-frame"
-                  src={`${certificate.pdfFile}#toolbar=1&navpanes=0&view=FitH`}
-                  title={`${certificate.title} PDF viewer`}
-                />
-              ) : (
-                <div className="story-pdf-placeholder">
-                  <p>PDF certificate ini belum tersedia.</p>
-                  <p>
-                    Simpan PDF di <code>public{certificate.pdfFile}</code>, lalu halaman ini otomatis menjadi viewer.
-                  </p>
-                </div>
-              )}
+              <div className="certificate-image-viewer">
+                <img src={certificate.imageFile} alt={`${certificate.title} certificate`} />
+              </div>
             </div>
           </div>
         </article>

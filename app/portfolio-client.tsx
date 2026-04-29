@@ -45,18 +45,6 @@ const experiences = [
     ],
   },
   {
-    date: "Feb 2019 - Dec 2020",
-    title: "Fullstack Developer",
-    company: "Fujitsu Indonesia",
-    summary:
-      "Delivered healthcare system features across .NET Core APIs, PostgreSQL, and Kendo UI.",
-    detail: [
-      "Designed RESTful APIs and business logic for patient registration, appointment management, and medical record workflows.",
-      "Designed and optimized PostgreSQL structures for healthcare system modules.",
-      "Built Kendo UI dashboards, forms, validation flows, and high-volume data grids with virtualization, filtering, and pagination.",
-    ],
-  },
-  {
     date: "2021 - 2023",
     title: "Research Assistant",
     company: "National Chin-Yi University of Technology",
@@ -66,6 +54,18 @@ const experiences = [
       "Researched block feature enhanced AMBTC-based data hiding methods for academic publication.",
       "Designed experiments, analyzed image quality and hiding capacity, and documented research findings.",
       "Published research with DOI: https://doi.org/10.1145/3634814.3634830.",
+    ],
+  },
+  {
+    date: "Feb 2019 - Dec 2020",
+    title: "Fullstack Developer",
+    company: "Fujitsu Indonesia",
+    summary:
+      "Delivered healthcare system features across .NET Core APIs, PostgreSQL, and Kendo UI.",
+    detail: [
+      "Designed RESTful APIs and business logic for patient registration, appointment management, and medical record workflows.",
+      "Designed and optimized PostgreSQL structures for healthcare system modules.",
+      "Built Kendo UI dashboards, forms, validation flows, and high-volume data grids with virtualization, filtering, and pagination.",
     ],
   },
   {
@@ -101,7 +101,6 @@ const skills = {
     "Procurement Management",
     "Scheduling",
     "Agile / Scrum",
-    "Risk Management",
     "Stakeholder Communication",
     "Kanban",
     "Business Analysis",
@@ -371,10 +370,10 @@ export default function PortfolioClient({
               <span className="rounded-lg border border-[rgba(212,168,67,0.25)] bg-[var(--accent2-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent2)]">Software Engineer</span>.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <a href="/cv/20260223_CV_hizrawan_PM.pdf" download className="group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
+              <a href="/cv/20260223_CV_hizrawan_PM.pdf" download className="primary-action group rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.20)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(0,229,180,0.30)]">
                 {t("home.downloadCv")} <span className="inline-block transition group-hover:translate-y-0.5">↓</span>
               </a>
-              <a href="#contact" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_58%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">
+              <a href="#contact" className="secondary-action rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_58%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">
                 {t("home.contactMe")}
               </a>
             </div>
@@ -384,11 +383,11 @@ export default function PortfolioClient({
 
       <Section id="about" alt>
         <SectionLabel index="01" label={t("nav.about")} />
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-          <div className="about-breathing relative mx-auto aspect-square w-full max-w-sm rounded-[2rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg3)_78%,transparent)] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.26)] backdrop-blur-xl">
+        <div className="about-layout grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div className="profile-card about-breathing relative mx-auto aspect-square w-full max-w-sm rounded-[2rem] border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg3)_78%,transparent)] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.26)] backdrop-blur-xl">
             <div className="absolute -right-5 -top-5 h-28 w-28 rounded-full bg-[var(--accent-dim)] blur-xl" />
             <div className="absolute -bottom-5 -left-5 h-32 w-32 rounded-full bg-[var(--accent2-dim)] blur-xl" />
-            <div className="relative h-full overflow-hidden rounded-[1.35rem] border border-[var(--border)] bg-[linear-gradient(135deg,var(--accent-dim),transparent)] shadow-inner">
+            <div className="profile-image-frame relative h-full overflow-hidden rounded-[1.35rem] border border-[var(--border)] bg-[linear-gradient(135deg,var(--accent-dim),transparent)] shadow-inner">
               <div className="absolute inset-6 rounded-full border border-[var(--accent)]/30 bg-[var(--accent-dim)] blur-2xl" />
               <span className="absolute inset-0 grid place-items-center font-[var(--font-mono)] text-xs uppercase tracking-[0.18em] text-[var(--accent)]">
                 Profile Photo
@@ -396,7 +395,7 @@ export default function PortfolioClient({
               <img
                 src="/hizrawan-profile.jpg"
                 alt="Hizrawan Dwi Oka portrait"
-                className="profile-portrait relative z-10 h-full w-full rounded-[1.15rem] object-cover object-center"
+                className="profile-portrait relative z-10 h-full w-full rounded-[1.15rem] object-contain object-center"
                 onError={(event) => {
                   event.currentTarget.style.opacity = "0";
                 }}
@@ -412,7 +411,7 @@ export default function PortfolioClient({
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
               {["Project Management", "Software Engineering", "CAPM®"].map((item) => (
-                <div key={item} className="rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-5 font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] shadow-[0_16px_40px_rgba(0,0,0,0.12)] transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--text)]">
+                <div key={item} className="home-card rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-5 font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] shadow-[0_16px_40px_rgba(0,0,0,0.12)] transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--text)]">
                   {item}
                 </div>
               ))}
@@ -429,7 +428,7 @@ export default function PortfolioClient({
             const isOpen = openExperienceKey === experienceKey;
 
             return (
-            <details key={experienceKey} open={isOpen} className="group rounded-3xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:border-[var(--accent)]">
+            <details key={experienceKey} open={isOpen} className="home-card group rounded-3xl border border-[var(--border)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] p-6 shadow-[0_18px_60px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:border-[var(--accent)]">
               <summary
                 className="grid cursor-pointer list-none gap-4 lg:grid-cols-[180px_1fr_auto] lg:items-center"
                 onClick={(event) => {
@@ -470,7 +469,7 @@ export default function PortfolioClient({
               href={item.href}
               target="_blank"
               rel="noreferrer"
-              className="about-breathing flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]"
+              className="home-card about-breathing flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]"
               style={{ animationDelay: `${index * 0.35}s` }}
             >
               <p className="min-h-12 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--accent)]">{item.meta}</p>
@@ -497,13 +496,13 @@ export default function PortfolioClient({
               Certifications and language credentials that support project coordination, international collaboration, and professional communication.
             </p>
           </div>
-          <Link href="/certificates" className="inline-flex w-fit rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
+          <Link href="/certificates" className="primary-action inline-flex w-fit rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
             {t("home.showAllCertificates")}
           </Link>
         </div>
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {homeCertificates.map((certificate) => (
-            <Link key={certificate.slug} href={`/certificates/${certificate.slug}`} className="home-certificate-card group flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
+            <Link key={certificate.slug} href={`/certificates/${certificate.slug}`} className="home-card home-certificate-card group flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
               <div className="certificate-card-cover relative mb-5 flex aspect-[16/9] items-center justify-center overflow-hidden rounded-2xl border border-[var(--border)]">
                 <span className="font-[var(--font-serif)] text-4xl text-[var(--accent)]">{certificate.score ?? certificate.year}</span>
                 <img
@@ -553,7 +552,7 @@ export default function PortfolioClient({
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               {skills[activeSkill].map((skill) => (
-                <span key={skill} className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_76%,transparent)] px-4 py-2 text-sm text-[var(--text)] shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
+                <span key={skill} className="skill-pill rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_76%,transparent)] px-4 py-2 text-sm text-[var(--text)] shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
                   {skill}
                 </span>
               ))}
@@ -567,7 +566,7 @@ export default function PortfolioClient({
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Personal Projects</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {homeProjects.map((project) => (
-            <Link key={project.slug} href={`/projects/${project.slug}`} className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
+            <Link key={project.slug} href={`/projects/${project.slug}`} className="home-card group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_82%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.18)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-[0_28px_90px_rgba(0,229,180,0.12)]">
               <span className="absolute right-0 top-0 h-28 w-28 translate-x-8 -translate-y-8 rounded-full bg-[var(--accent-dim)] blur-2xl transition group-hover:scale-150" />
               <div className="project-card-cover relative mb-5 flex aspect-[16/10] items-end overflow-hidden rounded-2xl border border-[var(--border)] p-4">
                 <span className="relative z-10 font-[var(--font-mono)] text-[0.62rem] uppercase tracking-[0.18em] text-[var(--accent)]">
@@ -588,7 +587,7 @@ export default function PortfolioClient({
           ))}
         </div>
         <div className="mt-8 text-center">
-          <Link href="/projects" className="inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
+          <Link href="/projects" className="primary-action inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
             {t("home.showAllProjects")}
           </Link>
         </div>
@@ -602,7 +601,7 @@ export default function PortfolioClient({
         </p>
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {homeStories.map((story) => (
-            <Link key={story.slug} href={`/stories/${story.slug}`} className="group flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">
+            <Link key={story.slug} href={`/stories/${story.slug}`} className="home-card group flex h-full flex-col rounded-3xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.14)] backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:border-[var(--accent)]">
               <div className="story-card-cover mb-5 flex aspect-[16/10] items-center justify-center rounded-2xl border border-[var(--border)]">
                 <span className="font-[var(--font-serif)] text-5xl text-[var(--accent)]">{getStoryKind(story.type)}</span>
               </div>
@@ -619,7 +618,7 @@ export default function PortfolioClient({
           ))}
         </div>
         <div className="mt-8 text-center">
-          <Link href="/stories" className="inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
+          <Link href="/stories" className="primary-action inline-flex rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
             {t("home.showAllStories")}
           </Link>
         </div>
@@ -633,9 +632,9 @@ export default function PortfolioClient({
             Reach out for backend engineering work, project collaboration, or writing conversations.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a href="mailto:hizrawandwioka@gmail.com" className="rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">Email Me</a>
-            <a href="https://github.com/Hizrawan" target="_blank" rel="noreferrer" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">GitHub</a>
-            <a href="https://www.linkedin.com/in/hizrawan/" target="_blank" rel="noreferrer" className="rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">LinkedIn</a>
+            <a href="mailto:hizrawandwioka@gmail.com" className="primary-action rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">Email Me</a>
+            <a href="https://github.com/Hizrawan" target="_blank" rel="noreferrer" className="secondary-action rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">GitHub</a>
+            <a href="https://www.linkedin.com/in/hizrawan/" target="_blank" rel="noreferrer" className="secondary-action rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_70%,transparent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--accent)]">LinkedIn</a>
           </div>
         </div>
       </Section>

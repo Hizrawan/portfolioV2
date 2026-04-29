@@ -77,19 +77,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   {project.year} · {project.role}
                 </p>
               </div>
-              {project.pdfFile ? (
+              {project.externalUrl ? (
                 <div className="story-reader-tools" aria-label="Project PDF controls">
-                  <a href={project.pdfFile} target="_blank" rel="noreferrer">
-                    Open PDF
+                  <a href={project.externalUrl} target="_blank" rel="noreferrer">
+                    External
                   </a>
-                  <a href={project.pdfFile} download>
-                    Download
-                  </a>
-                  {project.externalUrl ? (
-                    <a href={project.externalUrl} target="_blank" rel="noreferrer">
-                      External
-                    </a>
-                  ) : null}
                 </div>
               ) : null}
             </header>
@@ -116,11 +108,14 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                 </div>
 
                 {hasPdf && project.pdfFile ? (
-                  <iframe
-                    className="story-pdf-frame"
-                    src={`${project.pdfFile}#toolbar=1&navpanes=0&view=FitH`}
-                    title={`${project.title} PDF viewer`}
-                  />
+                  <div className="pdf-viewer-shell">
+                    <iframe
+                      className="story-pdf-frame"
+                      src={`${project.pdfFile}#toolbar=1&navpanes=0&scrollbar=1&view=FitH`}
+                      title={`${project.title} PDF viewer`}
+                    />
+                    <span className="pdf-toolbar-mask" aria-hidden="true" />
+                  </div>
                 ) : (
                   <div className="story-pdf-placeholder">
                     <p>PDF untuk project ini belum tersedia.</p>

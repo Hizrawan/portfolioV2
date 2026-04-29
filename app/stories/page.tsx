@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo, useState } from "react";
 import SiteHeader from "../../components/site-header";
 import { useLocalization } from "../../components/localization-provider";
 import { stories } from "../../lib/content";
+
+const storyFilters = ["All", "Novel", "Buku", "Blog"] as const;
+type StoryFilter = (typeof storyFilters)[number];
 
 function getStoryKind(type: string) {
   const lower = type.toLowerCase();
@@ -15,6 +19,14 @@ function getStoryKind(type: string) {
 
 export default function StoriesPage() {
   const { t } = useLocalization();
+  const [activeFilter, setActiveFilter] = useState<StoryFilter>("All");
+  const filteredStories = useMemo(
+    () =>
+      activeFilter === "All"
+        ? stories
+        : stories.filter((story) => getStoryKind(story.type) === activeFilter),
+    [activeFilter],
+  );
 
   return (
     <main className="content-page">
@@ -36,8 +48,21 @@ export default function StoriesPage() {
           </div>
         </div>
 
+        <div className="story-filter-bar" aria-label="Filter stories by type">
+          {storyFilters.map((filter) => (
+            <button
+              key={filter}
+              type="button"
+              className={activeFilter === filter ? "active" : ""}
+              onClick={() => setActiveFilter(filter)}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+
         <div className="content-grid">
-          {stories.map((story) => (
+          {filteredStories.map((story) => (
             <article key={story.slug} className="content-card">
               <div className="story-card-cover content-card-cover">
                 <span>{getStoryKind(story.type)}</span>
@@ -59,6 +84,10 @@ export default function StoriesPage() {
             </article>
           ))}
         </div>
+
+        {filteredStories.length === 0 ? (
+          <p className="story-filter-empty">Belum ada tulisan untuk kategori ini.</p>
+        ) : null}
       </section>
     </main>
   );
