@@ -292,11 +292,11 @@ export const certificates: Certificate[] = [
     pdfFile: "/certificates/google-project-management-specialization.pdf",
     featuredOnHome: true,
     summary:
-      "Comprehensive project management certification covering foundational concepts, methodologies, and practical applications for effective project leadership.",
+      "Project management certification covering foundational concepts and practical methods useful for guiding collaborative student and academic projects.",
     details: [
       "The specialization provided a structured learning path through key project management principles, including scope, schedule, and stakeholder management.",
       "The curriculum included real-world case studies and practical exercises to apply concepts in simulated project scenarios.",
-      "This credential supports a strong foundation in project management, complementing technical experience with formalized knowledge and best practices.",
+      "This credential supports structured delivery and collaboration skills that strengthen teaching, student project mentorship, and academic teamwork.",
     ],
     externalUrl: "https://coursera.org/share/e614cf7042e1902e9fe855d633428bbc",
   },
@@ -314,7 +314,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification path provided foundational knowledge in cloud architecture principles and AWS service offerings.",
       "The curriculum covered key topics such as designing for scalability, security best practices, and cost optimization strategies on AWS.",
-      "This credential supports a broader understanding of cloud infrastructure, which complements project management skills in technology-focused projects.",
+      "This credential supports a broader understanding of cloud infrastructure for teaching cloud topics and mentoring technology projects.",
     ],
     externalUrl: "https://www.coursera.org/account/accomplishments/specialization/3Z5K9Z6L2Z5C",
   },
@@ -332,7 +332,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification path provided foundational knowledge in data analysis principles and Google's data analytics tools.",
       "The curriculum covered key topics such as data cleaning, visualization, and statistical analysis using Google's platform.",
-      "This credential supports a broader understanding of data analytics, which complements project management skills in technology-focused projects.",
+      "This credential supports a broader understanding of data analytics for teaching data-driven thinking and applied informatics work.",
     ],
     externalUrl: "https://coursera.org/share/3beeb99f2ac5d164e3f183cbb1bb2c56",
   },
@@ -350,7 +350,7 @@ export const certificates: Certificate[] = [
     details: [
       "The specialization provided a comprehensive overview of entrepreneurship principles, including opportunity recognition, business model development, and funding strategies.",
       "The curriculum included case studies and practical exercises to apply concepts in real-world entrepreneurial scenarios.",
-      "This credential supports a strong foundation in entrepreneurship, complementing project management and technical skills with business acumen and innovation strategies.",
+      "This credential supports entrepreneurship and innovation perspectives that enrich teaching and student project guidance.",
     ],
     externalUrl: "https://coursera.org/share/7cfae6b31dd3ca11c2d46e1c7878f082",
   },
@@ -368,7 +368,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification path provided foundational knowledge in JavaScript and back-end development principles.",
       "The curriculum covered key topics such as Node.js, Express.js, database integration, and API development.",
-      "This credential supports a broader understanding of back-end technologies, which complements project management skills in technology-focused projects.",
+      "This credential supports a broader understanding of back-end technologies for teaching software engineering and mentoring student systems work.",
     ],
     externalUrl: "https://www.dicoding.com/certificates/07Z6JNG0JXQR",
   },
@@ -386,7 +386,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification path provided foundational knowledge in Swift programming principles and modern development practices.",
       "The curriculum covered key topics such as variables, functions, object-oriented programming, and asynchronous programming in Swift.",
-      "This credential supports a broader understanding of programming languages, which complements project management skills in technology-focused projects.",
+      "This credential supports a broader understanding of programming languages for teaching and mentoring applied software development.",
     ],
     externalUrl: "https://www.dicoding.com/certificates/53XEK263VXRN",
   },
@@ -404,8 +404,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification path provided foundational knowledge in Dart programming principles and modern development practices.",
       "The curriculum covered key topics such as variables, functions, object-oriented programming, and asynchronous programming in Dart.",
-      "This credential supports a broader understanding of programming languages, which complements project management skills in technology-focused projects.",
-     
+      "This credential supports a broader understanding of programming languages for teaching and mentoring applied software development.",
     ],
     externalUrl: "https://www.dicoding.com/certificates/JMZVVGLJRZN9",
   },
@@ -423,7 +422,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification path provided foundational knowledge in cloud computing principles and generative AI concepts, with a focus on AWS services.",
       "The curriculum covered key topics such as cloud infrastructure, AI model training, and deployment strategies for generative AI applications on AWS.",
-      "This credential supports a broader understanding of cloud and AI technologies, which complements project management skills in technology-focused projects.",
+      "This credential supports teaching cloud and AI topics and mentoring students on modern technology projects.",
     ],
     externalUrl: "https://www.dicoding.com/certificates/0LZ05LJ63X65",
   },
@@ -441,7 +440,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification path provided foundational knowledge in JavaScript programming principles and modern development practices.",
       "The curriculum covered key topics such as variables, functions, DOM manipulation, and asynchronous programming in JavaScript.",
-      "This credential supports a broader understanding of web development, which complements project management skills in technology-focused projects.",
+      "This credential supports teaching web development fundamentals and mentoring student programming work.",
     ],
     externalUrl: "https://www.dicoding.com/certificates/KEXL2KD6WZG2",
   },
@@ -459,7 +458,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification path provided foundational knowledge in mobile app development principles and native development frameworks.",
       "The curriculum covered key topics such as user interface design, app functionality, and deployment strategies for both Android and iOS platforms.",
-      "This credential supports a broader understanding of mobile development, which complements project management skills in technology-focused projects.",
+      "This credential supports teaching mobile development concepts and mentoring student app projects.",
     ],
     externalUrl: "https://www.dicoding.com/certificates/QLZ96W047Z5D",
   },
@@ -477,7 +476,7 @@ export const certificates: Certificate[] = [
     details: [
       "This certification provided foundational knowledge in Flutter development, covering core concepts, widgets, and state management.",
       "The curriculum included hands-on projects to apply Flutter skills in real-world app development scenarios.",
-      "This credential supports a broader skill set in mobile development, complementing project management and cloud architecture knowledge for technology projects.",
+      "This credential supports teaching cross-platform mobile development and mentoring student Flutter projects.",
     ],
     externalUrl: "https://www.dicoding.com/certificates/EYX4K23M6PDL",
   }

@@ -21,11 +21,23 @@ const sectionOrder = ["hero", ...navItems.map(([, href]) => href.slice(1))] as c
 
 const experiences = [
   {
-    date: "2024 - Present",
+    date: "2025 - Present",
+    title: "Dosen Teknik Informatika",
+    company: "Universitas Bunda Mulia",
+    summary:
+      "Teaching informatics courses and mentoring students with industry-grounded software engineering practice.",
+    detail: [
+      "Deliver lectures and lab sessions across software engineering and applied computing topics in the Teknik Informatika program.",
+      "Mentor students on projects, research foundations, and professional practices drawn from industry experience.",
+      "Bridge classroom theory with real-world system design, backend development, and collaborative delivery.",
+    ],
+  },
+  {
+    date: "2024 - 2025",
     title: "Backend Engineer",
     company: "Xinchuan Telecommunication Co. Ltd",
     summary:
-      "Maintaining Laravel backend systems and developing scalable Go microservices in production.",
+      "Maintained Laravel backend systems and developed scalable Go microservices in production.",
     detail: [
       "Maintain and enhance backend systems built with Laravel, including bug fixing, feature improvements, and performance optimization.",
       "Manage MySQL operations through schema updates, query tuning, and data integrity work.",
@@ -83,27 +95,18 @@ const experiences = [
 ];
 
 const skills = {
-  "Project Management": [
-    "Integration Management",
-    "Creating WBS",
-    "Requirements Gathering",
-    "Change Management",
-    "Monitoring and Controlling",
-    "Scope Management",
-    "Time Management",
-    "Cost Management",
-    "Quality Management",
-    "Human Resource Management",
-    "Communication Management",
-    "Risk Management",
-    "Stakeholder Management",
-    "Resource Management",
-    "Procurement Management",
-    "Scheduling",
-    "Agile / Scrum",
-    "Stakeholder Communication",
-    "Kanban",
-    "Business Analysis",
+  "Teaching & Research": [
+    "Curriculum Delivery",
+    "Student Mentoring",
+    "Academic Writing",
+    "Research Methodology",
+    "Software Engineering Education",
+    "Lab Instruction",
+    "Assessment Design",
+    "Technical Communication",
+    "Project Mentorship",
+    "Image Processing Research",
+    "Data Hiding",
   ],
   Backend: ["Go", "C# .NET Core", "Laravel", "REST API", "Microservices", "System Architecture", "NSQ","Swift","Node.js","Express.js","php","Python"],
   Database: ["PostgreSQL", "Microsoft SQL Server", "MySQL", "Query Optimization", "Data Modeling", "SQLite"],
@@ -296,7 +299,7 @@ export default function PortfolioClient({
   certificates: Certificate[];
 }) {
   const { t } = useLocalization();
-  const [activeSkill, setActiveSkill] = useState<keyof typeof skills>("Project Management");
+  const [activeSkill, setActiveSkill] = useState<keyof typeof skills>("Teaching & Research");
   const [activeSection, setActiveSection] = useState("about");
   const [openExperienceKey, setOpenExperienceKey] = useState<string | null>(null);
   const [typedName, setTypedName] = useState("\u00a0");
@@ -435,7 +438,7 @@ export default function PortfolioClient({
           <div className="max-w-4xl">
             <div className="hero-role-badge mb-6 inline-flex items-center gap-3 rounded-full border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg2)_78%,transparent)] px-4 py-2 font-[var(--font-mono)] text-xs uppercase tracking-[0.18em] text-[var(--accent)] shadow-[0_18px_50px_rgba(0,0,0,0.16)] backdrop-blur-xl">
               <span className="h-2 w-2 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
-              Associate Project Manager | Software Engineer
+              Dosen Teknik Informatika | Universitas Bunda Mulia
             </div>
             <h1 className="typing-headline font-[var(--font-serif)] text-[clamp(3.4rem,9vw,8.6rem)] font-light leading-[0.92] tracking-[-0.055em]">
               <strong className="bg-gradient-to-br from-[var(--text)] via-[var(--text)] to-[var(--accent)] bg-clip-text font-light text-transparent">
@@ -444,7 +447,7 @@ export default function PortfolioClient({
               <span className="typing-caret ml-2 inline-block h-[0.82em] w-[2px] translate-y-[0.08em] bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
             </h1>
             <p className="mt-7 max-w-3xl text-lg font-light leading-9 text-[var(--muted)] sm:text-xl">
-              An <span className="rounded-lg border border-[rgba(0,229,180,0.25)] bg-[var(--accent-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent)]">Associate Project Manager</span> with 5+ years of experience as a 
+              A <span className="rounded-lg border border-[rgba(0,229,180,0.25)] bg-[var(--accent-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent)]">Dosen Teknik Informatika</span> at Universitas Bunda Mulia with industry experience as a
               <span className="rounded-lg border border-[rgba(212,168,67,0.25)] bg-[var(--accent2-dim)] px-2 py-1 font-[var(--font-mono)] text-sm text-[var(--accent2)]">Software Engineer</span>.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
@@ -482,13 +485,13 @@ export default function PortfolioClient({
           </div>
           <div>
             <h2 className="max-w-3xl font-[var(--font-serif)] text-[clamp(1.45rem,3vw,2rem)] font-light leading-[1.12] tracking-[-0.02em]">
-              CAPM candidate transitioning from software engineering into IT project management.
+              Dosen Teknik Informatika at Universitas Bunda Mulia, bridging industry practice and classroom learning.
             </h2>
             <p className="mt-6 leading-8 text-[var(--muted)]">
-             As a programmer, I built backend systems. But over time, I found myself increasingly focused on planning, coordination, and turning technical work into reliable delivery outcomes. That evolution—from developer to project enabler—is exactly why I'm pursuing the Associate Project Manager role: to apply my technical foundation and new delivery skills in a dedicated project leadership capacity.
+              After years building backend systems and shipping software in industry, I now teach Informatics Engineering—helping students connect theory with how real systems are designed, built, and maintained. My focus is clear instruction, practical mentorship, and research-minded learning that prepares graduates for both academic depth and professional work.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {["Project Management", "Software Engineering", "CAPM®"].map((item) => (
+              {["Pengajaran", "Riset", "Software Engineering"].map((item) => (
                 <div key={item} className="home-card rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_80%,transparent)] p-5 font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[var(--muted)] shadow-[0_16px_40px_rgba(0,0,0,0.12)] transition hover:-translate-y-1 hover:border-[var(--accent)] hover:text-[var(--text)]">
                   {item}
                 </div>
@@ -571,7 +574,7 @@ export default function PortfolioClient({
           <div>
             <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Certificates & Credentials</h2>
             <p className="mt-5 max-w-2xl leading-8 text-[var(--muted)]">
-              Certifications and language credentials that support project coordination, international collaboration, and professional communication.
+              Certifications and language credentials that strengthen teaching, technical depth, and international academic collaboration.
             </p>
           </div>
           <Link href="/certificates" className="primary-action inline-flex w-fit rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">
@@ -626,7 +629,7 @@ export default function PortfolioClient({
               {activeSkill}
             </p>
             <p className="mt-3 max-w-xl text-[var(--muted)]">
-              Focus area and tools currently used across engineering, delivery, and communication work.
+              Focus areas used across teaching, research, and industry-informed software practice.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               {skills[activeSkill].map((skill) => (
@@ -675,7 +678,7 @@ export default function PortfolioClient({
         <SectionLabel index="07" label={t("nav.stories")} />
         <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Stories & Thoughts</h2>
         <p className="mt-5 max-w-2xl leading-8 text-[var(--muted)]">
-          In my spare time, I like to write. This section collects stories, blog notes, and personal writing pieces I have created outside of engineering work.
+          In my spare time, I like to write. This section collects stories, blog notes, and personal writing pieces created outside of teaching and research work.
         </p>
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {homeStories.map((story) => (
@@ -714,9 +717,9 @@ export default function PortfolioClient({
       <Section id="contact">
         <SectionLabel index="08" label={t("nav.contact")} />
         <div className="max-w-3xl">
-          <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Let&apos;s build the next thing.</h2>
+          <h2 className="font-[var(--font-serif)] text-[clamp(2.4rem,5vw,4.6rem)] font-light leading-none tracking-[-0.03em]">Let&apos;s connect.</h2>
           <p className="mt-6 text-lg leading-8 text-[var(--muted)]">
-            Reach out for backend engineering work, project collaboration, or writing conversations.
+            Reach out for teaching collaboration, research discussion, student mentorship, or writing conversations.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <a href="mailto:hizrawandwioka@gmail.com" className="primary-action rounded-full border border-[var(--accent)] bg-[var(--accent)] px-7 py-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.14em] text-[var(--bg)] shadow-[0_18px_45px_rgba(0,229,180,0.18)] transition hover:-translate-y-1">Email Me</a>

@@ -24,8 +24,9 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hizrawan's Portfolio",
-  description: "Portfolio website built with Next.js",
+  title: "Hizrawan Dwi Oka | Dosen Teknik Informatika",
+  description:
+    "Portfolio of Hizrawan Dwi Oka — Dosen Teknik Informatika at Universitas Bunda Mulia, with industry experience in software engineering and research.",
   icons: {
     icon: "/hizrawan-profile.jpg",
     shortcut: "/hizrawan-profile.jpg",

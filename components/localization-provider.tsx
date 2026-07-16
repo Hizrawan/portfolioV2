@@ -75,7 +75,7 @@ const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
     "certificates.kicker": "Credentials",
     "certificates.title": "All Certificates",
     "certificates.subtitle":
-      "Project management preparation, professional language certificates, and credentials that support international collaboration.",
+      "Professional certificates and language credentials that support teaching, technical depth, and international academic collaboration.",
     "projects.kicker": "Portfolio",
     "projects.title": "All Projects",
     "projects.subtitle":
@@ -110,7 +110,7 @@ const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
     "certificates.kicker": "Kredensial",
     "certificates.title": "Semua Sertifikat",
     "certificates.subtitle":
-      "Persiapan manajemen proyek, sertifikat bahasa profesional, dan kredensial yang mendukung kolaborasi internasional.",
+      "Sertifikat profesional dan kredensial bahasa yang mendukung pengajaran, kedalaman teknis, dan kolaborasi akademik internasional.",
     "projects.kicker": "Portofolio",
     "projects.title": "Semua Proyek",
     "projects.subtitle":
@@ -144,7 +144,7 @@ const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
     "pages.external": "外部連結",
     "certificates.kicker": "證照",
     "certificates.title": "所有證書",
-    "certificates.subtitle": "專案管理準備、專業語言證書，以及支援國際合作的相關證照。",
+    "certificates.subtitle": "專業證照與語言證書，支援教學、技術深度與國際學術合作。",
     "projects.kicker": "作品集",
     "projects.title": "所有專案",
     "projects.subtitle": "這裡整理了已完成或參與的專案，每個專案都包含摘要與詳細頁面。",
@@ -177,7 +177,7 @@ const dictionaries: Record<Locale, Record<TranslationKey, string>> = {
     "certificates.kicker": "Nachweise",
     "certificates.title": "Alle Zertifikate",
     "certificates.subtitle":
-      "Projektmanagement-Vorbereitung, professionelle Sprachzertifikate und Nachweise für internationale Zusammenarbeit.",
+      "Professionelle Zertifikate und Sprachnachweise, die Lehre, technische Tiefe und internationale akademische Zusammenarbeit unterstützen.",
     "projects.kicker": "Portfolio",
     "projects.title": "Alle Projekte",
     "projects.subtitle":
