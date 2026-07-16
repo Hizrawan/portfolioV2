@@ -210,6 +210,10 @@ export function LocalizationProvider({ children }: { children: React.ReactNode }
     }
   }, []);
 
+  useEffect(() => {
+    document.documentElement.lang = locale === "zh-TW" ? "zh-Hant" : locale;
+  }, [locale]);
+
   const value = useMemo<LocalizationContextValue>(() => {
     const setLocale = (nextLocale: Locale) => {
       setLocaleState(nextLocale);

@@ -324,6 +324,10 @@ body.custom-cursor-ready .home-shell * {
   scroll-margin-top: 6rem;
 }
 
+.home-snap-section.min-h-0 {
+  min-height: 0;
+}
+
 .home-snap-section::after {
   content: "";
   position: absolute;
@@ -2534,6 +2538,11 @@ body.light .content-link.secondary {
     padding-block: 6rem;
   }
 
+  .home-snap-section.min-h-0 {
+    min-height: 0;
+    padding-block: 5rem;
+  }
+
   .home-certificate-issuer,
   .home-certificate-title,
   .home-certificate-summary,
@@ -2608,6 +2617,12 @@ body.light .content-link.secondary {
     padding-block: 4.8rem 3.6rem;
   }
 
+  .home-snap-section.min-h-0 {
+    min-height: 0;
+    align-items: flex-start;
+    padding-block: 4.4rem 3.2rem;
+  }
+
   #hero {
     min-height: 100svh;
   }
@@ -2618,7 +2633,7 @@ body.light .content-link.secondary {
   }
 
   #hero h1 {
-    font-size: clamp(3.1rem, 16vw, 5.8rem);
+    font-size: clamp(2.6rem, 14vw, 5.8rem);
     line-height: 0.95;
   }
 
@@ -2627,9 +2642,15 @@ body.light .content-link.secondary {
     line-height: 1.8;
   }
 
+  .hero-role-badge {
+    max-width: 100%;
+  }
+
   .primary-action,
   .secondary-action {
     width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 
   .about-layout {
@@ -2637,9 +2658,21 @@ body.light .content-link.secondary {
   }
 
   .profile-card {
-    max-width: min(18rem, 100%);
+    max-width: min(16rem, 100%);
     padding: 1rem;
     border-radius: 1.5rem;
+  }
+
+  #experience details summary {
+    grid-template-columns: 1fr;
+  }
+
+  #education .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-panel .skill-tabs {
+    scrollbar-width: thin;
   }
 
   .profile-image-frame {

@@ -24,9 +24,9 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hizrawan Dwi Oka | Dosen Teknik Informatika",
+  title: "Hizrawan Dwi Oka | Informatics Engineering Lecturer",
   description:
-    "Portfolio of Hizrawan Dwi Oka — Dosen Teknik Informatika at Universitas Bunda Mulia, with industry experience in software engineering and research.",
+    "Portfolio of Hizrawan Dwi Oka — Informatics Engineering Lecturer at Universitas Bunda Mulia (from 2026), with industry experience including Xinchuan Telecommunication (2024–2026).",
   icons: {
     icon: "/hizrawan-profile.jpg",
     shortcut: "/hizrawan-profile.jpg",
